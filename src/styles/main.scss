@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "./_variables.scss";
 @import "./_mixins.scss";
 
@@ -31,4 +32,5 @@ select {
 
 body {
   min-height: 100vh;
+  font-family: $sans-serif;
 }
