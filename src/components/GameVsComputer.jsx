@@ -2,6 +2,16 @@ import { useEffect, useState } from "react";
 import "../components/Game.scss";
 
 const startingBoard = [null, null, null, null, null, null, null, null, null];
+const lines = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 const GameVsComputer = () => {
   const [board, setBoard] = useState(startingBoard);
@@ -15,17 +25,6 @@ const GameVsComputer = () => {
   };
 
   const checkForWinner = () => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
     // loop through lines
     for (const line of lines) {
       // assign each index of the current array to a variable
@@ -40,14 +39,45 @@ const GameVsComputer = () => {
 
   useEffect(() => {
     if (turn === "o" && gameActive) {
+      let move = null;
+
       // Computer's move logic here
-      // Pick a random empty cell
-      const emptyCells = [];
-      for (let i = 0; i < 9; i++) {
-        if (!board[i]) emptyCells.push(i);
+      // find line where there user needs one more square to win
+      for (const line of lines) {
+        const [a, b, c] = line;
+
+        if (
+          (board[a] === board[b] && board[a] !== null && board[c] === null) ||
+          (board[a] === board[c] && board[a] !== null && board[b] === null) ||
+          (board[b] === board[c] && board[b] !== null && board[a] === null)
+        ) {
+          console.log(line);
+
+          const options = {
+            [a]: board[a],
+            [b]: board[b],
+            [c]: board[c],
+          };
+
+          move = Number(
+            Object.keys(options).find((key) => options[key] === null)
+          );
+
+          console.log(`calculated move: ${move}`);
+        }
       }
-      if (emptyCells.length === 0) return;
-      const move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+      // Pick a random empty cell
+      if (!move) {
+        const emptyCells = [];
+        for (let i = 0; i < 9; i++) {
+          if (!board[i]) emptyCells.push(i);
+        }
+        if (emptyCells.length === 0) return;
+        move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        console.log(`random move: ${move}`);
+      }
+
       setBoard(board.map((cell, index) => (index === move ? "o" : cell)));
       setTurn("x");
     }
