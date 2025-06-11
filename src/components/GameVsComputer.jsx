@@ -29,6 +29,9 @@ const GameVsComputer = () => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
+  const [xWins, setXWins] = useState(0);
+  const [oWins, setOWins] = useState(0);
+  const [catWins, setCatWins] = useState(0);
 
   const checkForDraw = (board) => {
     if (board.every((cell) => cell !== null)) {
@@ -139,6 +142,24 @@ const GameVsComputer = () => {
             {cell}
           </button>
         ))}
+      </div>
+      <button
+        style={{
+          display: "block",
+          marginLeft: "auto",
+          marginRight: "auto",
+          padding: "10px",
+        }}
+      >
+        Reset
+      </button>
+      <div
+        className="info"
+        style={{ display: "flex", justifyContent: "space-between", padding: "50px" }}
+      >
+        <div className="x-wins">{`X wins: ${xWins}`}</div>
+        <div className="cat-wins">{`Cat wins: ${catWins}`}</div>
+        <div className="o-wins">{`O wins: ${oWins}`}</div>
       </div>
     </>
   );
