@@ -13,82 +13,94 @@ const lines = [
   [2, 4, 6],
 ];
 
+const checkForWinner = (board) => {
+  for (const line of lines) {
+    // assign each index of the current array to a variable
+    const [a, b, c] = line;
+    // check against board if it's a winner
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return board[a];
+    }
+  }
+  return null;
+};
+
 const GameVsComputer = () => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
 
-  const handleClick = (i) => {
-    if (!gameActive) return;
-    setBoard(board.map((cell, index) => (index === i ? turn : cell)));
-    setTurn(turn === "x" ? "o" : "x");
+  const checkForDraw = (board) => {
+    if (board.every((cell) => cell !== null)) {
+      console.log("The cat won!! ... meow");
+      setGameActive(false);
+      return;
+    }
   };
 
-  const checkForWinner = () => {
-    // loop through lines
-    for (const line of lines) {
-      // assign each index of the current array to a variable
-      const [a, b, c] = line;
-      // check against board if it's a winner
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        return board[a];
-      }
+  const handleClick = (i) => {
+    // only allow click if game is active and cell clicked is empty
+    if (!gameActive || board[i]) return;
+
+    // create copy of the new board and check if it's a winner
+    const newBoard = board.map((cell, index) => (index === i ? turn : cell));
+    const winner = checkForWinner(newBoard);
+
+    setBoard(newBoard);
+
+    if (winner) {
+      console.log(`${winner} wins!`);
+      setGameActive(false);
+      return;
     }
-    return null;
+
+    checkForDraw(newBoard);
+
+    setTurn("o");
   };
 
   useEffect(() => {
     if (turn === "o" && gameActive) {
       let move = null;
 
-      // Computer's move logic here
-      // find line where there user needs one more square to win
       for (const line of lines) {
         const [a, b, c] = line;
-        const twoSameOneEmpty =
-          (board[a] === board[b] && board[a] !== null && board[c] === null) ||
-          (board[a] === board[c] && board[a] !== null && board[b] === null) ||
-          (board[b] === board[c] && board[b] !== null && board[a] === null);
+        // get an array of the values of the current line being checked
+        const values = [board[a], board[b], board[c]];
 
-        if (twoSameOneEmpty && [board[a], board[b], board[c]].includes("o")) {
-          const options = {
-            [a]: board[a],
-            [b]: board[b],
-            [c]: board[c],
-          };
+        // Check if there's a winning move
+        const twoOOneNull =
+          (values[0] === values[1] &&
+            values[0] === "o" &&
+            values[2] === null) ||
+          (values[0] === values[2] &&
+            values[0] === "o" &&
+            values[1] === null) ||
+          (values[1] === values[2] && values[1] === "o" && values[0] === null);
 
-          move = Number(
-            Object.keys(options).find((key) => options[key] === null)
-          );
+        // Check if there's a blocking move
+        const twoXOneNull =
+          (values[0] === values[1] &&
+            values[0] === "x" &&
+            values[2] === null) ||
+          (values[0] === values[2] &&
+            values[0] === "x" &&
+            values[1] === null) ||
+          (values[1] === values[2] && values[1] === "x" && values[0] === null);
+
+        if (twoOOneNull) {
+          move = [a, b, c][values.indexOf(null)];
           console.log(`Calculated Winning Move: ${move}`);
+          break; // Always take the win if possible
+        } else if (twoXOneNull && move === null) {
+          move = [a, b, c][values.indexOf(null)];
+          console.log(`Calculated Blocking Move: ${move}`);
+          // Don't break; keep looking for a winning move
         }
       }
 
-      if (!move) {
-        for (const line of lines) {
-          const [a, b, c] = line;
-          const twoSameOneEmpty =
-            (board[a] === board[b] && board[a] !== null && board[c] === null) ||
-            (board[a] === board[c] && board[a] !== null && board[b] === null) ||
-            (board[b] === board[c] && board[b] !== null && board[a] === null);
-
-          if (twoSameOneEmpty) {
-            const options = {
-              [a]: board[a],
-              [b]: board[b],
-              [c]: board[c],
-            };
-
-            move = Number(
-              Object.keys(options).find((key) => options[key] === null)
-            );
-            console.log(`Calculated Blocking Move: ${move}`);
-          }
-        }
-      }
-
-      // Pick a random empty cell
-      if (!move) {
+      // Pick a random empty cell if no winning or blocking moves
+      if (move === null) {
         const emptyCells = [];
         for (let i = 0; i < 9; i++) {
           if (!board[i]) emptyCells.push(i);
@@ -98,26 +110,37 @@ const GameVsComputer = () => {
         console.log(`random move: ${move}`);
       }
 
-      setBoard(board.map((cell, index) => (index === move ? "o" : cell)));
+      const newBoard = board.map((cell, index) =>
+        index === move ? "o" : cell
+      );
+      const winner = checkForWinner(newBoard);
+
+      setBoard(newBoard);
+
+      if (winner) {
+        console.log(`${winner} wins!`);
+        setGameActive(false);
+        return;
+      }
+
+      // check for draw
+      checkForDraw(newBoard);
+
       setTurn("x");
-    }
-
-    const winner = checkForWinner();
-
-    if (winner) {
-      console.log(`${winner} wins!`);
-      setGameActive(false);
     }
   }, [board, turn, gameActive]);
 
   return (
-    <div id="board">
-      {board.map((cell, i) => (
-        <button className="cell" key={i} onClick={() => handleClick(i)}>
-          {cell}
-        </button>
-      ))}
-    </div>
+    <>
+      <div>{`${turn}'s turn`}</div>
+      <div id="board">
+        {board.map((cell, i) => (
+          <button className="cell" key={i} onClick={() => handleClick(i)}>
+            {cell}
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
 
