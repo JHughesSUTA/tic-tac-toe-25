@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 
 const startingBoard = [null, null, null, null, null, null, null, null, null];
 
-const Game = () => {
+const GameVsPlayer = () => {
   const [turn, setTurn] = useState("x");
   const [board, setBoard] = useState(startingBoard);
+  const [gameActive, setGameActive] = useState(true);
+
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -23,13 +25,22 @@ const Game = () => {
   };
 
   const handleClick = (i) => {
+    if (board[i]) return;
     setTurn((prevTurn) => (prevTurn === "x" ? "o" : "x"));
     const newBoard = board.slice();
     newBoard[i] = turn;
     setBoard(newBoard);
   };
 
+  // const computeTurn = () => {
+  //   const newBoard = board.slice().map((cell) => cell !== null);
+
+  //   return newBoard;
+  // };
+
   useEffect(() => {
+    let winnerFound = false;
+
     lines.forEach((line) => {
       if (
         board[line[0]] &&
@@ -37,21 +48,33 @@ const Game = () => {
         board[line[0]] === board[line[2]]
       ) {
         window.alert("WINNER WINNER CHICKEN DINNER");
+        resetBoard();
+        winnerFound = true;
+      }
+
+      if (!winnerFound && board.every((cell) => cell !== null)) {
+        window.alert("IT'S A DRAW!");
 
         resetBoard();
+        winnerFound = true;
       }
     });
+
+    // console.log(computeTurn());
   }, [board]);
 
   return (
-    <div id="board">
-      {board.map((cell, i) => (
-        <button className="cell" key={i} onClick={() => handleClick(i)}>
-          {cell}
-        </button>
-      ))}
-    </div>
+    <>
+      <p>{`${turn}'s turn`}</p>
+      <div id="board">
+        {board.map((cell, i) => (
+          <button className="cell" key={i} onClick={() => handleClick(i)}>
+            {cell}
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
 
-export default Game;
+export default GameVsPlayer;

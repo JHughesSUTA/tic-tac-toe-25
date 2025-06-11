@@ -1,9 +1,11 @@
-import Game from "./components/game";
+// import GameVsPlayer from "./components/GameVsPlayer";
+import GameVsComputer from "./components/GameVsComputer";
 
 function App() {
   return (
     <>
-      <Game />
+      {/* <GameVsPlayer /> */}
+      <GameVsComputer />
     </>
   );
 }
