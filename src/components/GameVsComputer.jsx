@@ -45,14 +45,12 @@ const GameVsComputer = () => {
       // find line where there user needs one more square to win
       for (const line of lines) {
         const [a, b, c] = line;
-
-        if (
+        const twoSameOneEmpty =
           (board[a] === board[b] && board[a] !== null && board[c] === null) ||
           (board[a] === board[c] && board[a] !== null && board[b] === null) ||
-          (board[b] === board[c] && board[b] !== null && board[a] === null)
-        ) {
-          console.log(line);
+          (board[b] === board[c] && board[b] !== null && board[a] === null);
 
+        if (twoSameOneEmpty && [board[a], board[b], board[c]].includes("o")) {
           const options = {
             [a]: board[a],
             [b]: board[b],
@@ -62,8 +60,30 @@ const GameVsComputer = () => {
           move = Number(
             Object.keys(options).find((key) => options[key] === null)
           );
+          console.log(`Calculated Winning Move: ${move}`);
+        }
+      }
 
-          console.log(`calculated move: ${move}`);
+      if (!move) {
+        for (const line of lines) {
+          const [a, b, c] = line;
+          const twoSameOneEmpty =
+            (board[a] === board[b] && board[a] !== null && board[c] === null) ||
+            (board[a] === board[c] && board[a] !== null && board[b] === null) ||
+            (board[b] === board[c] && board[b] !== null && board[a] === null);
+
+          if (twoSameOneEmpty) {
+            const options = {
+              [a]: board[a],
+              [b]: board[b],
+              [c]: board[c],
+            };
+
+            move = Number(
+              Object.keys(options).find((key) => options[key] === null)
+            );
+            console.log(`Calculated Blocking Move: ${move}`);
+          }
         }
       }
 
