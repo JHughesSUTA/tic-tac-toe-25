@@ -2,9 +2,9 @@ import { useState } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
-import "../components/Game.scss";
+import PropTypes from "prop-types";
 
-const startingBoard = [null, null, null, null, null, null, null, null, null];
+const startingBoard = Array(9).fill(null);
 const lines = [
   [0, 1, 2],
   [3, 4, 5],
@@ -73,3 +73,7 @@ const GameVsPlayer = () => {
 };
 
 export default GameVsPlayer;
+
+GameVsPlayer.propTypes = {
+  board: PropTypes.arrayOf(PropTypes.string),
+};

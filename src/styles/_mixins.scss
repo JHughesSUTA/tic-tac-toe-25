@@ -1,0 +1,36 @@
+@import "variables";
+
+@mixin body() {
+  font-weight: $fw-medium;
+  font-size: $fs-body;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+@mixin heading-xs() {
+  font-weight: $fw-bold;
+  font-size: $fs-heading-xs;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@mixin heading-s() {
+  font-weight: $fw-bold;
+  font-size: $fs-heading-s;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+@mixin heading-m() {
+  font-weight: $fw-bold;
+  font-size: $fs-heading-m;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+@mixin heading-l() {
+  font-weight: $fw-bold;
+  font-size: $fs-heading-l;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}

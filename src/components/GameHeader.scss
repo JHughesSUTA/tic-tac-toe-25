@@ -1,0 +1,35 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  &__logo {
+    margin-top: 4px;
+  }
+
+  &__turn-display {
+    @include body();
+    border-radius: 10px;
+    background-color: $navy-light;
+    color: $gray;
+    min-width: 96px;
+    max-height: 40px;
+    box-shadow: inset 0px -4px 0px 0px $navy-shadow;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px 13px;
+  }
+
+  &__reset {
+    background-color: $gray;
+    border: none;
+    min-width: 40px;
+    max-height: 40px;
+    border-radius: 10px;
+    padding: 11px 12px 13px;
+    box-shadow: inset 0px -4px 0px 0px #6b8997;
+    cursor: pointer;
+  }
+}

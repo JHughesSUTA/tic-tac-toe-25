@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
-import "../components/Game.scss";
 
-const startingBoard = [null, null, null, null, null, null, null, null, null];
+const startingBoard = Array(9).fill(null);
 const lines = [
   [0, 1, 2],
   [3, 4, 5],
@@ -137,7 +136,7 @@ const GameVsComputer = () => {
   }, [board, turn, gameActive]);
 
   return (
-    <main>
+    <main className="container">
       <GameHeader turn={turn} />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter

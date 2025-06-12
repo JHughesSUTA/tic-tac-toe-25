@@ -1,0 +1,33 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.game-info {
+  &__display {
+    @include body();
+    color: $navy-dark;
+    border-radius: 10px;
+    max-width: 96px;
+    max-height: 64px;
+    width: 100%;
+    padding: 11px 0;
+    text-align: center;
+    
+
+    &--x-wins {
+      background-color: $green;
+    }
+
+    &--o-wins {
+      background-color: $orange;
+    }
+
+    &--ties {
+      background-color: $gray;
+    }
+
+    span {
+      @include heading-s();
+      display: block;
+    }
+  }
+}
