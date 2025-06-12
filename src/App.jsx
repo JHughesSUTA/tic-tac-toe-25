@@ -4,8 +4,8 @@ import GameVsComputer from "./components/GameVsComputer";
 function App() {
   return (
     <>
-      <GameVsPlayer />
-      {/* <GameVsComputer /> */}
+      {/* <GameVsPlayer /> */}
+      <GameVsComputer />
     </>
   );
 }

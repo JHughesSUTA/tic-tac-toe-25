@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import GameHeader from "./GameHeader";
+import GameBoard from "./GameBoard";
+import GameFooter from "./GameFooter";
 import "../components/Game.scss";
 
 const startingBoard = [null, null, null, null, null, null, null, null, null];
@@ -29,9 +32,9 @@ const GameVsPlayer = () => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
-  const [xWins, setXWins] = useState(0);
-  const [oWins, setOWins] = useState(0);
-  const [catWins, setCatWins] = useState(0);
+  const [xWinCount, setXWinCount] = useState(0);
+  const [oWinCount, setOWinCount] = useState(0);
+  const [catWinCount, setCatWinCount] = useState(0);
 
   const handleClick = (i) => {
     if (!gameActive || board[i]) return;
@@ -57,38 +60,15 @@ const GameVsPlayer = () => {
   };
 
   return (
-    <>
-      <div>{`${turn}'s turn`}</div>
-      <div id="board">
-        {board.map((cell, i) => (
-          <button className="cell" key={i} onClick={() => handleClick(i)}>
-            {cell}
-          </button>
-        ))}
-      </div>
-      <button
-        style={{
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-          padding: "10px",
-        }}
-      >
-        Reset
-      </button>
-      <div
-        className="info"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "50px",
-        }}
-      >
-        <div className="x-wins">{`X wins: ${xWins}`}</div>
-        <div className="cat-wins">{`Cat wins: ${catWins}`}</div>
-        <div className="o-wins">{`O wins: ${oWins}`}</div>
-      </div>
-    </>
+    <main>
+      <GameHeader turn={turn} />
+      <GameBoard board={board} handleClick={handleClick} />
+      <GameFooter
+        xWinCount={xWinCount}
+        oWinCount={oWinCount}
+        catWinCount={catWinCount}
+      />
+    </main>
   );
 };
 
