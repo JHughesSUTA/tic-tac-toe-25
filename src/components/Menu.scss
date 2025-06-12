@@ -1,0 +1,75 @@
+@import "../styles/variables";
+@import "../styles/mixins";
+
+.menu {
+  text-align: center;
+  text-transform: uppercase;
+
+  .logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__player-selection {
+    margin: 32px auto;
+    background-color: $navy-light;
+    border-radius: 15px;
+    color: $gray;
+    min-height: 205px;
+    box-shadow: inset 0px -8px 0px 0px $navy-shadow;
+    padding: 24px 24px 32px 24px;
+
+    h1 {
+      @include heading-xs();
+    }
+
+    p {
+      @include body();
+      opacity: 50%;
+    }
+
+    &__button-container {
+      min-height: 72px;
+      background-color: $navy-dark;
+      border-radius: 10px;
+      max-width: 279px;
+      margin: 24px auto 17px;
+      padding: 9px 8px;
+
+      button {
+        border-radius: 10px;
+        height: 54px;
+        background: $gray;
+        border: none;
+        min-width: 131px;
+
+        svg {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
+
+  &__button-container {
+    button {
+      @include heading-xs();
+      width: 100%;
+      min-height: 56px;
+      border-radius: 15px;
+      border: none;
+      padding-bottom: 8px;
+
+      &.menu__button--cpu {
+        background-color: $yellow;
+        box-shadow: inset 0px -8px 0px 0px #cc8b13;
+        margin-bottom: 16px;
+      }
+
+      &.menu__button--player {
+        background-color: $green;
+        box-shadow: inset 0px -8px 0px 0px #118c87;
+      }
+    }
+  }
+}

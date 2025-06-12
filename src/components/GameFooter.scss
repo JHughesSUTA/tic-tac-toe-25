@@ -11,14 +11,13 @@
     width: 100%;
     padding: 11px 0;
     text-align: center;
-    
 
     &--x-wins {
       background-color: $green;
     }
 
     &--o-wins {
-      background-color: $orange;
+      background-color: $yellow;
     }
 
     &--ties {

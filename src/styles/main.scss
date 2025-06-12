@@ -33,6 +33,10 @@ select {
 body {
 }
 
+button {
+  cursor: pointer;
+}
+
 #root {
   background-color: $navy-dark;
   font-family: $sans-serif;

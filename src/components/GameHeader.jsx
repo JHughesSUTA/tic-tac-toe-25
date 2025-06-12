@@ -8,7 +8,13 @@ import "../components/GameHeader.scss";
 const GameHeader = ({ turn }) => {
   return (
     <header className="header">
-      <img className="header__logo" src={logo} alt="" width="72" height="32" />
+      <img
+        className="header__logo logo"
+        src={logo}
+        alt=""
+        width="72"
+        height="32"
+      />
       <div className="header__turn-display">
         {turn === "x" ? (
           <XSolid size="16" color="#A8BFC9" />
