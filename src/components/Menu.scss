@@ -60,13 +60,13 @@
       border: none;
       padding-bottom: 8px;
 
-      &.menu__button--cpu {
+      &.menu__button--single-player {
         background-color: $yellow;
         box-shadow: inset 0px -8px 0px 0px #cc8b13;
         margin-bottom: 16px;
       }
 
-      &.menu__button--player {
+      &.menu__button--two-player {
         background-color: $green;
         box-shadow: inset 0px -8px 0px 0px #118c87;
       }

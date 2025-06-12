@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
@@ -66,72 +67,70 @@ const GameVsComputer = () => {
 
   useEffect(() => {
     if (turn === "o" && gameActive) {
-      let move = null;
+      const timer = setTimeout(() => {
+        let move = null;
 
-      for (const line of lines) {
-        const [a, b, c] = line;
-        // get an array of the values of the current line being checked
-        const values = [board[a], board[b], board[c]];
+        for (const line of lines) {
+          const [a, b, c] = line;
+          const values = [board[a], board[b], board[c]];
 
-        // Check if there's a winning move
-        const twoOOneNull =
-          (values[0] === values[1] &&
-            values[0] === "o" &&
-            values[2] === null) ||
-          (values[0] === values[2] &&
-            values[0] === "o" &&
-            values[1] === null) ||
-          (values[1] === values[2] && values[1] === "o" && values[0] === null);
+          const twoOOneNull =
+            (values[0] === values[1] &&
+              values[0] === "o" &&
+              values[2] === null) ||
+            (values[0] === values[2] &&
+              values[0] === "o" &&
+              values[1] === null) ||
+            (values[1] === values[2] &&
+              values[1] === "o" &&
+              values[0] === null);
 
-        // Check if there's a blocking move
-        const twoXOneNull =
-          (values[0] === values[1] &&
-            values[0] === "x" &&
-            values[2] === null) ||
-          (values[0] === values[2] &&
-            values[0] === "x" &&
-            values[1] === null) ||
-          (values[1] === values[2] && values[1] === "x" && values[0] === null);
+          const twoXOneNull =
+            (values[0] === values[1] &&
+              values[0] === "x" &&
+              values[2] === null) ||
+            (values[0] === values[2] &&
+              values[0] === "x" &&
+              values[1] === null) ||
+            (values[1] === values[2] &&
+              values[1] === "x" &&
+              values[0] === null);
 
-        if (twoOOneNull) {
-          move = [a, b, c][values.indexOf(null)];
-          console.log(`Calculated Winning Move: ${move}`);
-          break; // Always take the win if possible
-        } else if (twoXOneNull && move === null) {
-          move = [a, b, c][values.indexOf(null)];
-          console.log(`Calculated Blocking Move: ${move}`);
-          // Don't break; keep looking for a winning move
+          if (twoOOneNull) {
+            move = [a, b, c][values.indexOf(null)];
+            break;
+          } else if (twoXOneNull && move === null) {
+            move = [a, b, c][values.indexOf(null)];
+          }
         }
-      }
 
-      // Pick a random empty cell if no winning or blocking moves
-      if (move === null) {
-        const emptyCells = [];
-        for (let i = 0; i < 9; i++) {
-          if (!board[i]) emptyCells.push(i);
+        if (move === null) {
+          const emptyCells = [];
+          for (let i = 0; i < 9; i++) {
+            if (!board[i]) emptyCells.push(i);
+          }
+          if (emptyCells.length === 0) return;
+          move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         }
-        if (emptyCells.length === 0) return;
-        move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        console.log(`random move: ${move}`);
-      }
 
-      const newBoard = board.map((cell, index) =>
-        index === move ? "o" : cell
-      );
-      const winner = checkForWinner(newBoard);
+        const newBoard = board.map((cell, index) =>
+          index === move ? "o" : cell
+        );
+        const winner = checkForWinner(newBoard);
 
-      setBoard(newBoard);
+        setBoard(newBoard);
 
-      if (winner) {
-        console.log(`${winner} wins!`);
-        setGameActive(false);
-        return;
-      }
+        if (winner) {
+          setGameActive(false);
+          return;
+        }
 
-      // check for draw
-      checkForDraw(newBoard);
+        checkForDraw(newBoard);
 
-      setTurn("x");
+        setTurn("x");
+      }, 600); // 600ms delay
+
+      return () => clearTimeout(timer);
     }
   }, [board, turn, gameActive]);
 

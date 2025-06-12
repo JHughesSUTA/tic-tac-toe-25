@@ -60,7 +60,7 @@ const GameVsPlayer = () => {
   };
 
   return (
-    <main>
+    <main className="container">
       <GameHeader turn={turn} />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
@@ -73,7 +73,3 @@ const GameVsPlayer = () => {
 };
 
 export default GameVsPlayer;
-
-GameVsPlayer.propTypes = {
-  board: PropTypes.arrayOf(PropTypes.string),
-};
