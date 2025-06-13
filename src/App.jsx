@@ -56,6 +56,8 @@ function App() {
           toggleResetModal={toggleResetModal}
         />
       )}
+
+      <dialog id="modal">This is a test</dialog>
     </>
   );
 }

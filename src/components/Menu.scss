@@ -14,7 +14,7 @@
     margin: 32px auto;
     background-color: $navy-light;
     border-radius: 15px;
-    color: $gray;
+    color: $silver;
     min-height: 205px;
     box-shadow: inset 0px -8px 0px 0px $navy-shadow;
     padding: 24px 24px 32px 24px;
@@ -39,7 +39,7 @@
       button {
         border-radius: 10px;
         height: 54px;
-        background: $gray;
+        background: $silver;
         border: none;
         min-width: 131px;
 
@@ -61,14 +61,12 @@
       padding-bottom: 8px;
 
       &.menu__button--single-player {
-        background-color: $yellow;
-        box-shadow: inset 0px -8px 0px 0px #cc8b13;
+        @include button-yellow();
         margin-bottom: 16px;
       }
 
       &.menu__button--two-player {
-        background-color: $green;
-        box-shadow: inset 0px -8px 0px 0px #118c87;
+        @include button-green();
       }
     }
   }

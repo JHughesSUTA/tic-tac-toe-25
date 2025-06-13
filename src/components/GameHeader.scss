@@ -13,7 +13,7 @@
     @include body();
     border-radius: 10px;
     background-color: $navy-light;
-    color: $gray;
+    color: $silver;
     min-width: 96px;
     max-height: 40px;
     box-shadow: inset 0px -4px 0px 0px $navy-shadow;
@@ -23,12 +23,10 @@
   }
 
   &__reset {
-    background-color: $gray;
-    border: none;
+    @include button-silver(-4px);
     min-width: 40px;
     max-height: 40px;
     border-radius: 10px;
     padding: 11px 12px 13px;
-    box-shadow: inset 0px -4px 0px 0px #6b8997;
   }
 }

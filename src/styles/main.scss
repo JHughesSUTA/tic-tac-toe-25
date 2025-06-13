@@ -37,6 +37,16 @@ button {
   cursor: pointer;
 }
 
+dialog[open] {
+  max-width: 100%;
+  margin: revert;
+  padding: revert;
+}
+
+::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
 #root {
   background-color: $navy-dark;
   font-family: $sans-serif;

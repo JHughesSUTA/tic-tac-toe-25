@@ -1,13 +1,21 @@
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
+import "../components/Modals.scss";
 
 const ModalReset = forwardRef((props, ref) => {
   return (
-    <dialog ref={ref} className="modal" id="">
+    <dialog ref={ref} className="modal modal--reset" id="">
       <h2>Restart game?</h2>
-      <div className="button-container">
-        <button onClick={props.toggleResetModal}>No, Cancel</button>
-        <button onClick={props.resetGame}>Yes, restart</button>
+      <div className="modal__button-container">
+        <button
+          className="modal__cancel-button"
+          onClick={props.toggleResetModal}
+        >
+          No, Cancel
+        </button>
+        <button className="modal__restart-button" onClick={props.resetGame}>
+          Yes, restart
+        </button>
       </div>
       {props.children}
     </dialog>
