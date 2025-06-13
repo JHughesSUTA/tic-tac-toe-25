@@ -5,7 +5,7 @@ import OSolid from "./icons/OSolid";
 import Reset from "./icons/Reset";
 import "../components/GameHeader.scss";
 
-const GameHeader = ({ turn }) => {
+const GameHeader = ({ turn, resetGame, toggleModal }) => {
   return (
     <header className="header">
       <img
@@ -23,15 +23,20 @@ const GameHeader = ({ turn }) => {
         )}{" "}
         turn
       </div>
-      <button className="header__reset" aria-label="Reset Game">
+      <button
+        onClick={toggleModal}
+        className="header__reset"
+        aria-label="Reset Game"
+      >
         <Reset size="15.4" />
       </button>
     </header>
   );
 };
 
-export default GameHeader;
-
 GameHeader.propTypes = {
   turn: PropTypes.string.isRequired,
 };
+
+export default GameHeader;
+

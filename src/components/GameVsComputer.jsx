@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
+import Modal from "./Modal";
 
 const startingBoard = Array(9).fill(null);
 const lines = [
@@ -28,7 +29,7 @@ const checkForWinner = (board) => {
   return null;
 };
 
-const GameVsComputer = () => {
+const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
@@ -136,15 +137,22 @@ const GameVsComputer = () => {
 
   return (
     <main className="container">
-      <GameHeader turn={turn} />
+      <GameHeader turn={turn} resetGame={resetGame} toggleModal={toggleModal} />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
       />
+      <Modal ref={modalRef} toggleModal={toggleModal} />
     </main>
   );
+};
+
+GameVsComputer.propTypes = {
+  resetGame: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  modalRef: PropTypes.object,
 };
 
 export default GameVsComputer;
