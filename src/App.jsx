@@ -7,14 +7,24 @@ function App() {
   const [gameSelected, setGameSelected] = useState(false);
   const [gameType, setGameType] = useState(null);
 
-  const modalRef = useRef(null);
+  const gameWonModalRef = useRef(null);
+  const resetModalRef = useRef(null);
 
-  const toggleModal = () => {
-    if (!modalRef.current) return;
-    if (modalRef.current.open) {
-      modalRef.current.close();
+  const toggleGameWonModal = () => {
+    if (!gameWonModalRef.current) return;
+    if (gameWonModalRef.current.open) {
+      gameWonModalRef.current.close();
     } else {
-      modalRef.current.showModal();
+      gameWonModalRef.current.showModal();
+    }
+  };
+
+  const toggleResetModal = () => {
+    if (!resetModalRef.current) return;
+    if (resetModalRef.current.open) {
+      resetModalRef.current.close();
+    } else {
+      resetModalRef.current.showModal();
     }
   };
 
@@ -31,15 +41,19 @@ function App() {
       {gameSelected && gameType === "single-player" && (
         <GameVsComputer
           resetGame={resetGame}
-          toggleModal={toggleModal}
-          modalRef={modalRef}
+          toggleGameWonModal={toggleGameWonModal}
+          gameWonModalRef={gameWonModalRef}
+          resetModalRef={resetModalRef}
+          toggleResetModal={toggleResetModal}
         />
       )}
       {gameSelected && gameType === "two-player" && (
         <GameVsPlayer
           resetGame={resetGame}
-          toggleModal={toggleModal}
-          modalRef={modalRef}
+          toggleGameWonModal={toggleGameWonModal}
+          gameWonModalRef={gameWonModalRef}
+          resetModalRef={resetModalRef}
+          toggleResetModal={toggleResetModal}
         />
       )}
     </>

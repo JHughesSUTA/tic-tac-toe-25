@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
 import PropTypes from "prop-types";
-import Modal from "./Modal";
+import ModalGameWon from "./ModalGameWon";
+import ModalReset from "./ModalReset";
 
 const startingBoard = Array(9).fill(null);
 const lines = [
@@ -17,7 +18,7 @@ const lines = [
   [2, 4, 6],
 ];
 
-const checkForWinner = (board, toggleModal) => {
+const checkForWinner = (board) => {
   for (const line of lines) {
     // assign each index of the current array to a variable
     const [a, b, c] = line;
@@ -29,7 +30,13 @@ const checkForWinner = (board, toggleModal) => {
   return null;
 };
 
-const GameVsPlayer = ({ resetGame, toggleModal, modalRef }) => {
+const GameVsPlayer = ({
+  resetGame,
+  toggleGameWonModal,
+  gameWonModalRef,
+  toggleResetModal,
+  resetModalRef,
+}) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
@@ -37,16 +44,11 @@ const GameVsPlayer = ({ resetGame, toggleModal, modalRef }) => {
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
 
-  // const modalRef = useRef(null);
-
-  // const toggleModal = () => {
-  //   if (!modalRef.current) return;
-  //   if (modalRef.current.open) {
-  //     modalRef.current.close();
-  //   } else {
-  //     modalRef.current.showModal();
-  //   }
-  // };
+  const startNewMatch = () => {
+    setBoard(startingBoard);
+    setGameActive(true);
+    setTurn("x");
+  };
 
   const handleClick = (i) => {
     if (!gameActive || board[i]) return;
@@ -59,12 +61,20 @@ const GameVsPlayer = ({ resetGame, toggleModal, modalRef }) => {
     if (winner) {
       console.log(`${winner} wins!`);
       setGameActive(false);
-      return;
+
+      if (winner === "x") {
+        setXWinCount((prev) => prev + 1);
+      } else {
+        setOWinCount((prev) => prev + 1);
+      }
+      toggleGameWonModal();
     }
 
     if (newBoard.every((cell) => cell !== null)) {
       console.log("The cat won!! ... meow");
       setGameActive(false);
+      setCatWinCount((prev) => prev + 1);
+      toggleGameWonModal();
       return;
     }
 
@@ -73,22 +83,39 @@ const GameVsPlayer = ({ resetGame, toggleModal, modalRef }) => {
 
   return (
     <main className="container">
-      <GameHeader turn={turn} resetGame={resetGame} toggleModal={toggleModal} />
+      <GameHeader
+        turn={turn}
+        resetGame={resetGame}
+        toggleGameWonModal={toggleGameWonModal}
+        toggleResetModal={toggleResetModal}
+      />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
       />
-      <Modal ref={modalRef} toggleModal={toggleModal} />
+      <ModalGameWon
+        ref={gameWonModalRef}
+        toggleGameWonModal={toggleGameWonModal}
+        startNewMatch={startNewMatch}
+        resetGame={resetGame}
+      />
+      <ModalReset
+        ref={resetModalRef}
+        resetGame={resetGame}
+        toggleResetModal={toggleResetModal}
+      />
     </main>
   );
 };
 
 GameVsPlayer.propTypes = {
   resetGame: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  modalRef: PropTypes.object,
+  toggleGameWonModal: PropTypes.func.isRequired,
+  gameWonModalRef: PropTypes.object,
+  toggleResetModal: PropTypes.func.isRequired,
+  resetModalRef: PropTypes.object,
 };
 
 export default GameVsPlayer;

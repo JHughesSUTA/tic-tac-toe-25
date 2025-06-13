@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
-import Modal from "./Modal";
+import ModalGameWon from "./ModalGameWon";
+import ModalReset from "./ModalReset";
 
 const startingBoard = Array(9).fill(null);
 const lines = [
@@ -29,7 +30,13 @@ const checkForWinner = (board) => {
   return null;
 };
 
-const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
+const GameVsComputer = ({
+  resetGame,
+  toggleGameWonModal,
+  gameWonModalRef,
+  toggleResetModal,
+  resetModalRef,
+}) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [turn, setTurn] = useState("x");
@@ -37,10 +44,18 @@ const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
 
+  const startNewMatch = () => {
+    setBoard(startingBoard);
+    setGameActive(true);
+    setTurn("x");
+  };
+
   const checkForDraw = (board) => {
     if (board.every((cell) => cell !== null)) {
       console.log("The cat won!! ... meow");
       setGameActive(false);
+      setCatWinCount((prev) => prev + 1);
+      toggleGameWonModal();
       return;
     }
   };
@@ -58,6 +73,12 @@ const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
     if (winner) {
       console.log(`${winner} wins!`);
       setGameActive(false);
+      if (winner === "x") {
+        setXWinCount((prev) => prev + 1);
+      } else {
+        setOWinCount((prev) => prev + 1);
+      }
+      toggleGameWonModal();
       return;
     }
 
@@ -117,12 +138,19 @@ const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
         const newBoard = board.map((cell, index) =>
           index === move ? "o" : cell
         );
+
         const winner = checkForWinner(newBoard);
 
         setBoard(newBoard);
 
         if (winner) {
           setGameActive(false);
+          if (winner === "x") {
+            setXWinCount((prev) => prev + 1);
+          } else {
+            setOWinCount((prev) => prev + 1);
+          }
+          toggleGameWonModal();
           return;
         }
 
@@ -137,22 +165,38 @@ const GameVsComputer = ({ resetGame, toggleModal, modalRef }) => {
 
   return (
     <main className="container">
-      <GameHeader turn={turn} resetGame={resetGame} toggleModal={toggleModal} />
+      <GameHeader
+        turn={turn}
+        resetGame={resetGame}
+        toggleResetModal={toggleResetModal}
+      />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
       />
-      <Modal ref={modalRef} toggleModal={toggleModal} />
+      <ModalGameWon
+        ref={gameWonModalRef}
+        toggleGameWonModal={toggleGameWonModal}
+        startNewMatch={startNewMatch}
+        resetGame={resetGame}
+      />
+      <ModalReset
+        ref={resetModalRef}
+        resetGame={resetGame}
+        toggleResetModal={toggleResetModal}
+      />
     </main>
   );
 };
 
 GameVsComputer.propTypes = {
   resetGame: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  modalRef: PropTypes.object,
+  toggleGameWonModal: PropTypes.func.isRequired,
+  gameWonModalRef: PropTypes.object,
+  toggleResetModal: PropTypes.func.isRequired,
+  resetModalRef: PropTypes.object,
 };
 
 export default GameVsComputer;
