@@ -45,6 +45,7 @@ function App() {
           gameWonModalRef={gameWonModalRef}
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
+          gameType={gameType}
         />
       )}
       {gameSelected && gameType === "two-player" && (
@@ -54,6 +55,7 @@ function App() {
           gameWonModalRef={gameWonModalRef}
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
+          gameType={gameType}
         />
       )}
 

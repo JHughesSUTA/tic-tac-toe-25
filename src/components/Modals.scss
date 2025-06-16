@@ -12,6 +12,14 @@
 
   h2 {
     @include heading-m();
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      display: inline-block;
+      margin-right: 8px;
+    }
   }
 
   p {
@@ -45,9 +53,13 @@
   }
 
   &--game-won {
-    padding: 40px 40px 48px !important; 
+    padding: 40px 40px 48px !important;
     h2 {
       margin-top: 16px;
     }
+  }
+
+  &--tie {
+    padding: 61px 40px 61px !important;
   }
 }

@@ -13,7 +13,13 @@ const ModalReset = forwardRef((props, ref) => {
         >
           No, Cancel
         </button>
-        <button className="modal__restart-button" onClick={props.resetGame}>
+        <button
+          className="modal__restart-button"
+          onClick={() => {
+            props.startNewMatch();
+            props.toggleResetModal();
+          }}
+        >
           Yes, restart
         </button>
       </div>

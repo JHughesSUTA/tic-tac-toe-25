@@ -39,6 +39,7 @@ const GameVsPlayer = ({
 }) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
+  const [winner, setWinner] = useState(null);
   const [turn, setTurn] = useState("x");
   const [xWinCount, setXWinCount] = useState(0);
   const [oWinCount, setOWinCount] = useState(0);
@@ -48,31 +49,31 @@ const GameVsPlayer = ({
     setBoard(startingBoard);
     setGameActive(true);
     setTurn("x");
+    setWinner(null);
   };
 
   const handleClick = (i) => {
     if (!gameActive || board[i]) return;
 
     const newBoard = board.map((cell, index) => (index === i ? turn : cell));
-    const winner = checkForWinner(newBoard);
+    const gameWinner = checkForWinner(newBoard);
 
     setBoard(newBoard);
 
-    if (winner) {
-      console.log(`${winner} wins!`);
+    if (gameWinner) {
       setGameActive(false);
+      setWinner(gameWinner);
 
-      if (winner === "x") {
+      if (gameWinner === "x") {
         setXWinCount((prev) => prev + 1);
       } else {
         setOWinCount((prev) => prev + 1);
       }
       toggleGameWonModal();
-    }
-
-    if (newBoard.every((cell) => cell !== null)) {
+    } else if (newBoard.every((cell) => cell !== null)) {
       console.log("The cat won!! ... meow");
       setGameActive(false);
+      setWinner("tie");
       setCatWinCount((prev) => prev + 1);
       toggleGameWonModal();
       return;
@@ -83,12 +84,7 @@ const GameVsPlayer = ({
 
   return (
     <main className="container">
-      <GameHeader
-        turn={turn}
-        resetGame={resetGame}
-        toggleGameWonModal={toggleGameWonModal}
-        toggleResetModal={toggleResetModal}
-      />
+      <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
         xWinCount={xWinCount}
@@ -100,10 +96,11 @@ const GameVsPlayer = ({
         toggleGameWonModal={toggleGameWonModal}
         startNewMatch={startNewMatch}
         resetGame={resetGame}
+        winner={winner}
       />
       <ModalReset
         ref={resetModalRef}
-        resetGame={resetGame}
+        startNewMatch={startNewMatch}
         toggleResetModal={toggleResetModal}
       />
     </main>
@@ -116,6 +113,7 @@ GameVsPlayer.propTypes = {
   gameWonModalRef: PropTypes.object,
   toggleResetModal: PropTypes.func.isRequired,
   resetModalRef: PropTypes.object,
+  gameType: PropTypes.string.isRequired,
 };
 
 export default GameVsPlayer;

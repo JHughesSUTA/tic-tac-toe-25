@@ -36,6 +36,7 @@ const GameVsComputer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
+  gameType,
 }) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
@@ -43,11 +44,13 @@ const GameVsComputer = ({
   const [xWinCount, setXWinCount] = useState(0);
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
+  const [winner, setWinner] = useState(null);
 
   const startNewMatch = () => {
     setBoard(startingBoard);
     setGameActive(true);
     setTurn("x");
+    setWinner(null);
   };
 
   const checkForDraw = (board) => {
@@ -55,6 +58,7 @@ const GameVsComputer = ({
       console.log("The cat won!! ... meow");
       setGameActive(false);
       setCatWinCount((prev) => prev + 1);
+      setWinner("tie");
       toggleGameWonModal();
       return;
     }
@@ -62,18 +66,19 @@ const GameVsComputer = ({
 
   const handleClick = (i) => {
     // only allow click if game is active and cell clicked is empty
-    if (!gameActive || board[i]) return;
+    if (!gameActive || board[i] || turn === "o") return;
 
     // create copy of the new board and check if it's a winner
     const newBoard = board.map((cell, index) => (index === i ? turn : cell));
-    const winner = checkForWinner(newBoard);
+    const gameWinner = checkForWinner(newBoard);
 
     setBoard(newBoard);
 
-    if (winner) {
-      console.log(`${winner} wins!`);
+    if (gameWinner) {
+      setWinner(gameWinner);
+      console.log(`${gameWinner} wins!`);
       setGameActive(false);
-      if (winner === "x") {
+      if (gameWinner === "x") {
         setXWinCount((prev) => prev + 1);
       } else {
         setOWinCount((prev) => prev + 1);
@@ -139,13 +144,14 @@ const GameVsComputer = ({
           index === move ? "o" : cell
         );
 
-        const winner = checkForWinner(newBoard);
+        const gameWinner = checkForWinner(newBoard);
 
         setBoard(newBoard);
 
-        if (winner) {
+        if (gameWinner) {
+          setWinner(gameWinner);
           setGameActive(false);
-          if (winner === "x") {
+          if (gameWinner === "x") {
             setXWinCount((prev) => prev + 1);
           } else {
             setOWinCount((prev) => prev + 1);
@@ -165,11 +171,7 @@ const GameVsComputer = ({
 
   return (
     <main className="container">
-      <GameHeader
-        turn={turn}
-        resetGame={resetGame}
-        toggleResetModal={toggleResetModal}
-      />
+      <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
       <GameBoard board={board} handleClick={handleClick} />
       <GameFooter
         xWinCount={xWinCount}
@@ -181,10 +183,12 @@ const GameVsComputer = ({
         toggleGameWonModal={toggleGameWonModal}
         startNewMatch={startNewMatch}
         resetGame={resetGame}
+        winner={winner}
+        gameType={gameType}
       />
       <ModalReset
         ref={resetModalRef}
-        resetGame={resetGame}
+        startNewMatch={startNewMatch}
         toggleResetModal={toggleResetModal}
       />
     </main>
@@ -197,6 +201,7 @@ GameVsComputer.propTypes = {
   gameWonModalRef: PropTypes.object,
   toggleResetModal: PropTypes.func.isRequired,
   resetModalRef: PropTypes.object,
+  gameType: PropTypes.string.isRequired,
 };
 
 export default GameVsComputer;
