@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import logo from "../assets/images/logo.png";
 import XSolid from "./icons/XSolid";
@@ -5,6 +6,7 @@ import OSolid from "./icons/OSolid";
 import "../components/Menu.scss";
 
 const Menu = ({ setGameSelected, setGameType }) => {
+  const [playerSelection, setPlayerSelection] = useState("x");
   const handleClick = (selectedType) => {
     setGameSelected(true);
     setGameType(selectedType);
@@ -22,11 +24,23 @@ const Menu = ({ setGameSelected, setGameType }) => {
       <div className="menu__player-selection">
         <h1>Pick player 1's mark</h1>
         <div className="menu__player-selection__button-container">
-          <button>
-            <XSolid size="32" color="#1a2a33" />
+          <button
+            onClick={() => setPlayerSelection("x")}
+            className={`menu__choice-button ${
+              playerSelection === "x" && "selected"
+            }`}
+            id="x-choice-button"
+          >
+            <XSolid size="32" />
           </button>
-          <button>
-            <OSolid size="32" color="#1a2a33" />
+          <button
+            onClick={() => setPlayerSelection("o")}
+            className={`menu__choice-button ${
+              playerSelection === "o" && "selected"
+            }`}
+            id="o-choice-button"
+          >
+            <OSolid size="32" />
           </button>
         </div>
         <p>Remember: X goes first</p>

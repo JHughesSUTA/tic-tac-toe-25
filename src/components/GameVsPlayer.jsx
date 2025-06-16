@@ -44,13 +44,17 @@ const GameVsPlayer = ({
   const [xWinCount, setXWinCount] = useState(0);
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
+  const [nextFirstTurn, setNextFirstTurn] = useState("o");
 
   const startNewMatch = () => {
     setBoard(startingBoard);
     setGameActive(true);
-    setTurn("x");
+    setTurn(nextFirstTurn);
     setWinner(null);
+    setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
   };
+
+  console.log(nextFirstTurn);
 
   const handleClick = (i) => {
     if (!gameActive || board[i]) return;
@@ -79,7 +83,7 @@ const GameVsPlayer = ({
       return;
     }
 
-    setTurn(turn === "x" ? "o" : "x");
+    !gameWinner && setTurn(turn === "x" ? "o" : "x");
   };
 
   return (

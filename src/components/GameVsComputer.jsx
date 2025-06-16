@@ -45,13 +45,17 @@ const GameVsComputer = ({
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
   const [winner, setWinner] = useState(null);
+  const [nextFirstTurn, setNextFirstTurn] = useState("o");
 
   const startNewMatch = () => {
     setBoard(startingBoard);
     setGameActive(true);
-    setTurn("x");
+    setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
+    setTurn(nextFirstTurn);
     setWinner(null);
   };
+
+  console.log(nextFirstTurn);
 
   const checkForDraw = (board) => {
     if (board.every((cell) => cell !== null)) {
@@ -89,7 +93,7 @@ const GameVsComputer = ({
 
     checkForDraw(newBoard);
 
-    setTurn("o");
+    !gameWinner && setTurn(turn === "x" ? "o" : "x");
   };
 
   useEffect(() => {
@@ -162,7 +166,7 @@ const GameVsComputer = ({
 
         checkForDraw(newBoard);
 
-        setTurn("x");
+        !gameWinner && setTurn(turn === "x" ? "o" : "x");
       }, 600); // 600ms delay
 
       return () => clearTimeout(timer);

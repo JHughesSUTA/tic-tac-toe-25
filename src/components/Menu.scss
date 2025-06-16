@@ -39,15 +39,40 @@
       button {
         border-radius: 10px;
         height: 54px;
-        background: $silver;
+        background: $navy-dark;
         border: none;
         min-width: 131px;
 
         svg {
           margin-left: auto;
           margin-right: auto;
+
+          path {
+            fill: $silver;
+          }
+        }
+
+        &:hover {
+          background-color: $navy-light;
+        }
+
+        &.selected {
+          background-color: $silver;
+
+          svg {
+            path {
+              fill: $navy-dark;
+            }
+          }
+
+          &:hover {
+            background-color: $silver-hover;
+          }
         }
       }
+    }
+
+    &__choice-button {
     }
   }
 
