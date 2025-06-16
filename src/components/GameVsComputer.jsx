@@ -58,7 +58,11 @@ const GameVsComputer = ({
     setWinner(null);
   };
 
-  console.log(nextFirstTurn);
+  const restart = () => {
+    setBoard(startingBoard);
+    setGameActive(true);
+    setTurn(nextFirstTurn === "x" ? "o" : "x");
+  };
 
   const checkForDraw = (board) => {
     if (board.every((cell) => cell !== null)) {
@@ -203,7 +207,7 @@ const GameVsComputer = ({
       />
       <ModalReset
         ref={resetModalRef}
-        startNewMatch={startNewMatch}
+        restart={restart}
         toggleResetModal={toggleResetModal}
       />
     </main>

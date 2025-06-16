@@ -16,7 +16,7 @@ const ModalReset = forwardRef((props, ref) => {
         <button
           className="modal__restart-button"
           onClick={() => {
-            props.startNewMatch();
+            props.restart();
             props.toggleResetModal();
           }}
         >

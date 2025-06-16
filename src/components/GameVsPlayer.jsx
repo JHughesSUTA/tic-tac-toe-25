@@ -51,12 +51,16 @@ const GameVsPlayer = ({
   const startNewMatch = () => {
     setBoard(startingBoard);
     setGameActive(true);
-    setTurn(nextFirstTurn);
     setWinner(null);
+    setTurn(nextFirstTurn);
     setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
   };
 
-  console.log(nextFirstTurn);
+  const restart = () => {
+    setBoard(startingBoard);
+    setGameActive(true);
+    setTurn(nextFirstTurn === "x" ? "o" : "x");
+  };
 
   const handleClick = (i) => {
     if (!gameActive || board[i]) return;
@@ -107,10 +111,11 @@ const GameVsPlayer = ({
         winner={winner}
         playerOne={playerOne}
         gameType={gameType}
+        // setNextFirstTurn={setNextFirstTurn}
       />
       <ModalReset
         ref={resetModalRef}
-        startNewMatch={startNewMatch}
+        restart={restart}
         toggleResetModal={toggleResetModal}
       />
     </main>
