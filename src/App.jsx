@@ -6,6 +6,7 @@ import { useState, useRef } from "react";
 function App() {
   const [gameSelected, setGameSelected] = useState(false);
   const [gameType, setGameType] = useState(null);
+  const [playerOne, setPlayerOne] = useState("x");
 
   const gameWonModalRef = useRef(null);
   const resetModalRef = useRef(null);
@@ -36,7 +37,12 @@ function App() {
   return (
     <>
       {!gameSelected && (
-        <Menu setGameSelected={setGameSelected} setGameType={setGameType} />
+        <Menu
+          setGameSelected={setGameSelected}
+          setGameType={setGameType}
+          playerOne={playerOne}
+          setPlayerOne={setPlayerOne}
+        />
       )}
       {gameSelected && gameType === "single-player" && (
         <GameVsComputer
@@ -46,6 +52,7 @@ function App() {
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
           gameType={gameType}
+          playerOne={playerOne}
         />
       )}
       {gameSelected && gameType === "two-player" && (
@@ -56,6 +63,7 @@ function App() {
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
           gameType={gameType}
+          playerOne={playerOne}
         />
       )}
 

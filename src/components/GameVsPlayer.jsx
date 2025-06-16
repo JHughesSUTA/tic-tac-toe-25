@@ -36,6 +36,8 @@ const GameVsPlayer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
+  gameType,
+  playerOne,
 }) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
@@ -94,6 +96,8 @@ const GameVsPlayer = ({
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
+        gameType={gameType}
+        playerOne={playerOne}
       />
       <ModalGameWon
         ref={gameWonModalRef}
@@ -101,6 +105,8 @@ const GameVsPlayer = ({
         startNewMatch={startNewMatch}
         resetGame={resetGame}
         winner={winner}
+        playerOne={playerOne}
+        gameType={gameType}
       />
       <ModalReset
         ref={resetModalRef}

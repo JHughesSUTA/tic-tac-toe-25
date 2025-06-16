@@ -37,6 +37,7 @@ const GameVsComputer = ({
   toggleResetModal,
   resetModalRef,
   gameType,
+  playerOne,
 }) => {
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
@@ -47,11 +48,13 @@ const GameVsComputer = ({
   const [winner, setWinner] = useState(null);
   const [nextFirstTurn, setNextFirstTurn] = useState("o");
 
+  const cpu = playerOne === "x" ? "o" : "x";
+
   const startNewMatch = () => {
     setBoard(startingBoard);
     setGameActive(true);
-    setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
     setTurn(nextFirstTurn);
+    setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
     setWinner(null);
   };
 
@@ -70,10 +73,12 @@ const GameVsComputer = ({
 
   const handleClick = (i) => {
     // only allow click if game is active and cell clicked is empty
-    if (!gameActive || board[i] || turn === "o") return;
+    if (!gameActive || board[i] || turn !== playerOne) return;
 
     // create copy of the new board and check if it's a winner
-    const newBoard = board.map((cell, index) => (index === i ? turn : cell));
+    const newBoard = board.map((cell, index) =>
+      index === i ? playerOne : cell
+    );
     const gameWinner = checkForWinner(newBoard);
 
     setBoard(newBoard);
@@ -97,7 +102,7 @@ const GameVsComputer = ({
   };
 
   useEffect(() => {
-    if (turn === "o" && gameActive) {
+    if (turn !== playerOne && gameActive) {
       const timer = setTimeout(() => {
         let move = null;
 
@@ -105,36 +110,39 @@ const GameVsComputer = ({
           const [a, b, c] = line;
           const values = [board[a], board[b], board[c]];
 
-          const twoOOneNull =
+          const winningMove =
             (values[0] === values[1] &&
-              values[0] === "o" &&
+              values[0] === cpu &&
               values[2] === null) ||
             (values[0] === values[2] &&
-              values[0] === "o" &&
+              values[0] === cpu &&
               values[1] === null) ||
             (values[1] === values[2] &&
-              values[1] === "o" &&
+              values[1] === cpu &&
               values[0] === null);
 
-          const twoXOneNull =
+          const blockingMove =
             (values[0] === values[1] &&
-              values[0] === "x" &&
+              values[0] === playerOne &&
               values[2] === null) ||
             (values[0] === values[2] &&
-              values[0] === "x" &&
+              values[0] === playerOne &&
               values[1] === null) ||
             (values[1] === values[2] &&
-              values[1] === "x" &&
+              values[1] === playerOne &&
               values[0] === null);
 
-          if (twoOOneNull) {
+          if (winningMove) {
+            // pick cell if it's a winning move
             move = [a, b, c][values.indexOf(null)];
             break;
-          } else if (twoXOneNull && move === null) {
+            // pick cell if it's a blocking move
+          } else if (blockingMove && move === null) {
             move = [a, b, c][values.indexOf(null)];
           }
         }
 
+        // Pick a random empty cell if there are no winning or blocking moves
         if (move === null) {
           const emptyCells = [];
           for (let i = 0; i < 9; i++) {
@@ -145,7 +153,7 @@ const GameVsComputer = ({
         }
 
         const newBoard = board.map((cell, index) =>
-          index === move ? "o" : cell
+          index === move ? cpu : cell
         );
 
         const gameWinner = checkForWinner(newBoard);
@@ -181,6 +189,8 @@ const GameVsComputer = ({
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
+        gameType={gameType}
+        playerOne={playerOne}
       />
       <ModalGameWon
         ref={gameWonModalRef}
@@ -189,6 +199,7 @@ const GameVsComputer = ({
         resetGame={resetGame}
         winner={winner}
         gameType={gameType}
+        playerOne={playerOne}
       />
       <ModalReset
         ref={resetModalRef}
