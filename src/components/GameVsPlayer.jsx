@@ -95,7 +95,12 @@ const GameVsPlayer = ({
   return (
     <main className="container">
       <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
-      <GameBoard board={board} handleClick={handleClick} />
+      <GameBoard
+        board={board}
+        handleClick={handleClick}
+        turn={turn}
+        gameType={gameType}
+      />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}

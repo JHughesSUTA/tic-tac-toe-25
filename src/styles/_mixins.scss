@@ -51,6 +51,9 @@
 
   &:hover {
     background-color: $yellow-hover;
+    // box-shadow: inset 0px ($shadow-height / 2) 0px 0px #cc8b13;
+    // min-height: 52px;
+    // margin-top: -($shadow-height / 2);
   }
 }
 
@@ -66,7 +69,7 @@
 
 @mixin button-silver($shadow-height: -8px) {
   background-color: $silver;
-  box-shadow: inset 0px $shadow-height 0px 0px #6B8997;
+  box-shadow: inset 0px $shadow-height 0px 0px #6b8997;
   border: none;
 
   &:hover {

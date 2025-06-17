@@ -19,5 +19,15 @@
     border: none;
     box-shadow: inset 0px -8px 0px 0px $navy-shadow;
     padding-bottom: 8px;
+
+    .cell--preview {
+      display: none;
+    }
+
+    &:hover {
+      .cell--preview {
+        display: block;
+      }
+    }
   }
 }
