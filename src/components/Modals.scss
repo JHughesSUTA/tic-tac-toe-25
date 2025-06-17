@@ -7,59 +7,106 @@
   text-align: center;
   border: none;
   color: $silver;
-  min-height: 228px;
+  min-height: 266px;
   text-transform: uppercase;
 
   h2 {
-    @include heading-m();
+    @include heading-l();
     display: flex;
     justify-content: center;
     align-items: center;
 
     svg {
       display: inline-block;
-      margin-right: 8px;
+      margin-right: 24px;
     }
   }
 
   p {
-    @include body();
+    @include heading-xs();
   }
 
   &__button-container {
     margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
     button {
       text-transform: uppercase;
-      padding: 15px 16px 17px;
+      padding: 15px 17px 17px;
       border-radius: 10px;
 
-      &:nth-of-type(2) {
-        margin-left: 16px;
-      }
       @include heading-xs();
       &.modal__cancel-button,
       &.modal__quit-button {
         @include button-silver(-4px);
+
+        &:hover {
+          box-shadow: inset 0px -2px 0px 0px #6b8997;
+          padding: 14px 17px 16px;
+          margin-top: 2px;
+        }
       }
       &.modal__restart-button,
       &.modal__next-round-button {
         @include button-yellow(-4px);
+
+        &:hover {
+          box-shadow: inset 0px -2px 0px 0px #cc8b13;
+          padding: 14px 17px 16px;
+          margin-top: 2px;
+        }
       }
     }
   }
 
   &--reset {
-    padding: 61px 10px !important;
+    padding: 67px 10px 66px !important;
   }
 
   &--game-won {
-    padding: 40px 40px 48px !important;
+    padding: 45px 0 !important;
     h2 {
       margin-top: 16px;
     }
   }
 
   &--tie {
-    padding: 61px 40px 61px !important;
+    padding: 61px 10px !important;
+  }
+}
+
+@media (width <= 500px) {
+  .modal {
+    min-height: 228px;
+
+    h2 {
+      @include heading-m();
+
+      svg {
+        margin-right: 8px;
+        width: 29px;
+        height: 29px;
+      }
+    }
+
+    p {
+      @include body();
+    }
+
+    &__button-container {
+      margin-top: 24px;
+    }
+
+    &--reset {
+      padding: 61px 10px !important;
+    }
+
+    &--game-won {
+      padding: 40px 10px 48px !important;
+      h2 {
+        margin-top: 16px;
+      }
+    }
   }
 }

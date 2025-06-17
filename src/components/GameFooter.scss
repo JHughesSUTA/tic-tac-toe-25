@@ -6,10 +6,10 @@
     @include body();
     color: $navy-dark;
     border-radius: 10px;
-    max-width: 96px;
-    max-height: 64px;
+    max-width: 140px;
+    max-height: 72px;
     width: 100%;
-    padding: 11px 0;
+    padding: 13px 0 11px;
     text-align: center;
 
     &--x-wins {
@@ -25,8 +25,23 @@
     }
 
     span {
-      @include heading-s();
+      @include heading-m();
       display: block;
+    }
+  }
+}
+
+@media (width <= 480px) {
+  .game-info {
+    &__display {
+      border-radius: 10px;
+      max-width: 96px;
+      max-height: 64px;
+      padding: 11px 0;
+
+      span {
+        @include heading-s();
+      }
     }
   }
 }

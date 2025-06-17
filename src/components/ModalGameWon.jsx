@@ -26,7 +26,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>You won!</p>
             <h2 style={{ color: messageColor }}>
-              <XSolid size="28" /> takes the round
+              <XSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -36,7 +36,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Oh no, you lost ...</p>
             <h2 style={{ color: messageColor }}>
-              <XSolid size="28" /> takes the round
+              <XSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -49,7 +49,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Player 1 wins!</p>
             <h2 style={{ color: messageColor }}>
-              <XSolid size="28" /> takes the round
+              <XSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -59,7 +59,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Player 2 wins!</p>
             <h2 style={{ color: messageColor }}>
-              <XSolid size="28" /> takes the round
+              <XSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -76,7 +76,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Oh no, you lost ...</p>
             <h2 style={{ color: messageColor }}>
-              <OSolid size="30" /> takes the round
+              <OSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -86,7 +86,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>You won!</p>
             <h2 style={{ color: messageColor }}>
-              <OSolid size="30" /> takes the round
+              <OSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -99,7 +99,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Player 2 wins!</p>
             <h2 style={{ color: messageColor }}>
-              <OSolid size="30" /> takes the round
+              <OSolid size="64" /> takes the round
             </h2>
           </>
         );
@@ -109,7 +109,7 @@ const ModalGameWon = forwardRef((props, ref) => {
           <>
             <p>Player 1 wins!</p>
             <h2 style={{ color: messageColor }}>
-              <OSolid size="30" /> takes the round
+              <OSolid size="64" /> takes the round
             </h2>
           </>
         );

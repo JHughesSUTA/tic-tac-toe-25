@@ -5,7 +5,14 @@ import PropTypes from "prop-types";
 import XOutline from "./icons/XOutline";
 import OOutline from "./icons/OOutline";
 
-const GameBoard = ({ board, handleClick, turn, playerOne, gameType }) => {
+const GameBoard = ({
+  board,
+  handleClick,
+  turn,
+  playerOne,
+  gameType,
+  winningLine,
+}) => {
   console.log(gameType);
   return (
     <section id="board">
@@ -16,7 +23,15 @@ const GameBoard = ({ board, handleClick, turn, playerOne, gameType }) => {
             (gameType === "single-player" && turn === playerOne));
 
         return (
-          <button className="cell" key={i} onClick={() => handleClick(i)}>
+          <button
+            className={`cell ${
+              winningLine && winningLine.includes(i)
+                ? `cell--winner-${board[i]}`
+                : ""
+            }`}
+            key={i}
+            onClick={() => handleClick(i)}
+          >
             {cell === "x" ? <XSolid /> : cell === "o" ? <OSolid /> : null}
             {showPreview && (
               <span className="cell--preview">

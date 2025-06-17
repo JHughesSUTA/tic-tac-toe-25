@@ -24,10 +24,10 @@ const checkForWinner = (board) => {
     const [a, b, c] = line;
     // check against board if it's a winner
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return { winner: board[a], line };
     }
   }
-  return null;
+  return { winner: null, line: [] };
 };
 
 const GameVsPlayer = ({
@@ -42,6 +42,7 @@ const GameVsPlayer = ({
   const [board, setBoard] = useState(startingBoard);
   const [gameActive, setGameActive] = useState(true);
   const [winner, setWinner] = useState(null);
+  const [winningLine, setWinningLine] = useState([]);
   const [turn, setTurn] = useState("x");
   const [xWinCount, setXWinCount] = useState(0);
   const [oWinCount, setOWinCount] = useState(0);
@@ -52,6 +53,7 @@ const GameVsPlayer = ({
     setBoard(startingBoard);
     setGameActive(true);
     setWinner(null);
+    setWinningLine([]);
     setTurn(nextFirstTurn);
     setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
   };
@@ -66,26 +68,31 @@ const GameVsPlayer = ({
     if (!gameActive || board[i]) return;
 
     const newBoard = board.map((cell, index) => (index === i ? turn : cell));
-    const gameWinner = checkForWinner(newBoard);
+    const { winner: gameWinner, line: winLine } = checkForWinner(newBoard);
 
     setBoard(newBoard);
 
     if (gameWinner) {
       setGameActive(false);
       setWinner(gameWinner);
+      setWinningLine(winLine);
 
       if (gameWinner === "x") {
         setXWinCount((prev) => prev + 1);
       } else {
         setOWinCount((prev) => prev + 1);
       }
-      toggleGameWonModal();
+      setTimeout(() => {
+        toggleGameWonModal();
+      }, 1000);
     } else if (newBoard.every((cell) => cell !== null)) {
       console.log("The cat won!! ... meow");
       setGameActive(false);
       setWinner("tie");
       setCatWinCount((prev) => prev + 1);
-      toggleGameWonModal();
+      setTimeout(() => {
+        toggleGameWonModal();
+      }, 500);
       return;
     }
 
@@ -100,6 +107,7 @@ const GameVsPlayer = ({
         handleClick={handleClick}
         turn={turn}
         gameType={gameType}
+        winningLine={winningLine}
       />
       <GameFooter
         xWinCount={xWinCount}
@@ -116,7 +124,6 @@ const GameVsPlayer = ({
         winner={winner}
         playerOne={playerOne}
         gameType={gameType}
-        // setNextFirstTurn={setNextFirstTurn}
       />
       <ModalReset
         ref={resetModalRef}

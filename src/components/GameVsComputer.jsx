@@ -24,10 +24,10 @@ const checkForWinner = (board) => {
     const [a, b, c] = line;
     // check against board if it's a winner
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return { winner: board[a], line };
     }
   }
-  return null;
+  return { winner: null, line: [] };
 };
 
 const GameVsComputer = ({
@@ -46,6 +46,7 @@ const GameVsComputer = ({
   const [oWinCount, setOWinCount] = useState(0);
   const [catWinCount, setCatWinCount] = useState(0);
   const [winner, setWinner] = useState(null);
+  const [winningLine, setWinningLine] = useState([]);
   const [nextFirstTurn, setNextFirstTurn] = useState("o");
 
   const cpu = playerOne === "x" ? "o" : "x";
@@ -56,6 +57,7 @@ const GameVsComputer = ({
     setTurn(nextFirstTurn);
     setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
     setWinner(null);
+    setWinningLine([]);
   };
 
   const restart = () => {
@@ -70,7 +72,9 @@ const GameVsComputer = ({
       setGameActive(false);
       setCatWinCount((prev) => prev + 1);
       setWinner("tie");
-      toggleGameWonModal();
+      setTimeout(() => {
+        toggleGameWonModal();
+      }, 500);
       return;
     }
   };
@@ -83,12 +87,14 @@ const GameVsComputer = ({
     const newBoard = board.map((cell, index) =>
       index === i ? playerOne : cell
     );
-    const gameWinner = checkForWinner(newBoard);
+
+    const { winner: gameWinner, line: winLine } = checkForWinner(newBoard);
 
     setBoard(newBoard);
 
     if (gameWinner) {
       setWinner(gameWinner);
+      setWinningLine(winLine);
       console.log(`${gameWinner} wins!`);
       setGameActive(false);
       if (gameWinner === "x") {
@@ -96,7 +102,9 @@ const GameVsComputer = ({
       } else {
         setOWinCount((prev) => prev + 1);
       }
-      toggleGameWonModal();
+      setTimeout(() => {
+        toggleGameWonModal();
+      }, 1000);
       return;
     }
 
@@ -160,19 +168,22 @@ const GameVsComputer = ({
           index === move ? cpu : cell
         );
 
-        const gameWinner = checkForWinner(newBoard);
+        const { winner: gameWinner, line: winLine } = checkForWinner(newBoard);
 
         setBoard(newBoard);
 
         if (gameWinner) {
           setWinner(gameWinner);
+          setWinningLine(winLine);
           setGameActive(false);
           if (gameWinner === "x") {
             setXWinCount((prev) => prev + 1);
           } else {
             setOWinCount((prev) => prev + 1);
           }
-          toggleGameWonModal();
+          setTimeout(() => {
+            toggleGameWonModal();
+          }, 1000);
           return;
         }
 
@@ -194,6 +205,7 @@ const GameVsComputer = ({
         turn={turn}
         playerOne={playerOne}
         gameType={gameType}
+        winningLine={winningLine}
       />
       <GameFooter
         xWinCount={xWinCount}

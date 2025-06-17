@@ -17,9 +17,9 @@ const GameHeader = ({ turn, toggleResetModal }) => {
       />
       <div className="header__turn-display">
         {turn === "x" ? (
-          <XSolid size="16" color="#A8BFC9" />
+          <XSolid size="20" color="#A8BFC9" />
         ) : (
-          <OSolid size="16" color="#A8BFC9" />
+          <OSolid size="20" color="#A8BFC9" />
         )}{" "}
         turn
       </div>
@@ -28,7 +28,7 @@ const GameHeader = ({ turn, toggleResetModal }) => {
         className="header__reset"
         aria-label="Reset Game"
       >
-        <Reset size="15.4" />
+        <Reset size="20px" />
       </button>
     </header>
   );
