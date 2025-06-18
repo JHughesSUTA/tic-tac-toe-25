@@ -1,9 +1,9 @@
-@import "../styles/variables";
-@import "../styles/mixins";
+@use "../styles/variables" as *;
+@use "../styles/mixins";
 
 .game-scoreboard {
   &__display {
-    @include body();
+    @include mixins.body();
     color: $navy-dark;
     border-radius: 10px;
     max-width: 140px;
@@ -25,7 +25,7 @@
     }
 
     span {
-      @include heading-m();
+      @include mixins.heading-m();
       display: block;
     }
   }
@@ -40,7 +40,7 @@
       padding: 11px 0;
 
       span {
-        @include heading-s();
+        @include mixins.heading-s();
       }
     }
   }

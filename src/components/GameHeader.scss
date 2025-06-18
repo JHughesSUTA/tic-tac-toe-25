@@ -1,5 +1,5 @@
-@import "../styles/variables";
-@import "../styles/mixins";
+@use "../styles/variables" as *;
+@use "../styles/mixins";
 
 .header {
   display: flex;
@@ -15,7 +15,7 @@
   }
 
   &__turn-display {
-    @include heading-xs();
+    @include mixins.heading-xs();
     border-radius: 10px;
     background-color: $navy-light;
     color: $silver;
@@ -28,7 +28,7 @@
   }
 
   &__restart {
-    @include button-silver(-4px);
+    @include mixins.button-silver(-4px);
     min-width: 52px;
     max-height: 52px;
     border-radius: 10px;
@@ -47,7 +47,7 @@
 @media (width <= 480px) {
   .header {
     &__turn-display {
-      @include body();
+      @include mixins.body();
       min-width: 96px;
       max-height: 40px;
       padding: 10px 15px 13px;

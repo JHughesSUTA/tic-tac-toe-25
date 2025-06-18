@@ -1,5 +1,5 @@
-@import "../styles/variables";
-@import "../styles/mixins";
+@use "../styles/variables" as *;
+@use "../styles/mixins";
 
 .modal {
   width: 100%;
@@ -11,7 +11,7 @@
   text-transform: uppercase;
 
   h2 {
-    @include heading-l();
+    @include mixins.heading-l();
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@
   }
 
   p {
-    @include heading-xs();
+    @include mixins.heading-xs();
   }
 
   &__button-container {
@@ -36,10 +36,10 @@
       padding: 15px 17px 17px;
       border-radius: 10px;
 
-      @include heading-xs();
+      @include mixins.heading-xs();
       &.modal__cancel-button,
       &.modal__quit-button {
-        @include button-silver(-4px);
+        @include mixins.button-silver(-4px);
 
         &:hover {
           box-shadow: inset 0px -2px 0px 0px #6b8997;
@@ -49,7 +49,7 @@
       }
       &.modal__restart-button,
       &.modal__next-round-button {
-        @include button-yellow(-4px);
+        @include mixins.button-yellow(-4px);
 
         &:hover {
           box-shadow: inset 0px -2px 0px 0px #cc8b13;
@@ -81,7 +81,7 @@
     min-height: 228px;
 
     h2 {
-      @include heading-m();
+      @include mixins.heading-m();
 
       svg {
         margin-right: 8px;
@@ -91,7 +91,7 @@
     }
 
     p {
-      @include body();
+      @include mixins.body();
     }
 
     &__button-container {

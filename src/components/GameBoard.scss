@@ -1,4 +1,4 @@
-@import "../styles/variables";
+@use "../styles/variables" as *;
 
 #board {
   display: grid;
@@ -24,14 +24,6 @@
       display: none;
     }
 
-    &:hover,
-    &:focus-visible {
-      outline: none;
-      .cell--preview {
-        display: block;
-      }
-    }
-
     &--winner-x {
       background-color: $green;
       border-bottom: 1px solid $navy-dark;
@@ -48,6 +40,18 @@
       svg {
         path {
           fill: $navy-dark;
+        }
+      }
+    }
+
+    // Only show preview on hover/focus when pointer is fine (mouse or keyboard)
+    @media (pointer: fine) {
+      &:hover,
+      &:focus-visible {
+        outline: none;
+
+        .cell--preview {
+          display: block;
         }
       }
     }
