@@ -25,7 +25,7 @@ const ModalGameWon = forwardRef((props, ref) => {
         return (
           <>
             <p>You won!</p>
-            <h2 style={{ color: messageColor }}>
+            <h2 id="modal-heading" style={{ color: messageColor }}>
               <XSolid size="64" /> takes the round
             </h2>
           </>
@@ -35,7 +35,7 @@ const ModalGameWon = forwardRef((props, ref) => {
         return (
           <>
             <p>Oh no, you lost ...</p>
-            <h2 style={{ color: messageColor }}>
+            <h2 id="modal-heading" style={{ color: messageColor }}>
               <XSolid size="64" /> takes the round
             </h2>
           </>
@@ -48,7 +48,7 @@ const ModalGameWon = forwardRef((props, ref) => {
         return (
           <>
             <p>Player 1 wins!</p>
-            <h2 style={{ color: messageColor }}>
+            <h2 id="modal-heading" style={{ color: messageColor }}>
               <XSolid size="64" /> takes the round
             </h2>
           </>
@@ -58,7 +58,7 @@ const ModalGameWon = forwardRef((props, ref) => {
         return (
           <>
             <p>Player 2 wins!</p>
-            <h2 style={{ color: messageColor }}>
+            <h2 id="modal-heading" style={{ color: messageColor }}>
               <XSolid size="64" /> takes the round
             </h2>
           </>
@@ -126,17 +126,24 @@ const ModalGameWon = forwardRef((props, ref) => {
         props.winner === "tie" ? "modal--tie" : "modal--game-won"
       }`}
       id="modal"
+      role="dialog"
+      aria-labelledby="modal__heading"
     >
       {props.winner === "x" && getXWinMessage()}
       {props.winner === "o" && getOWinMessage()}
       {props.winner === "tie" && tieMessage}
       <div className="modal__button-container">
-        <button className="modal__quit-button" onClick={props.resetGame}>
+        <button
+          className="modal__quit-button"
+          onClick={props.resetGame}
+          aria-label="Quit game"
+        >
           Quit
         </button>
         <button
           className="modal__next-round-button"
           onClick={handleNextRoundClick}
+          aria-label="Next round"
         >
           Next Round
         </button>

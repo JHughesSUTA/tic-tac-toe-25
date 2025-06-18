@@ -20,19 +20,23 @@ const Menu = ({ setGameSelected, setGameType, playerOne, setPlayerOne }) => {
         height="32"
       />
       <div className="menu__player-selection">
-        <h1>Pick player 1's mark</h1>
+        <legend>Pick player 1's mark</legend>
         <div className="menu__player-selection__button-container">
           <button
+            id="x-choice-button"
             onClick={() => setPlayerOne("x")}
             className={`menu__choice-button ${playerOne === "x" && "selected"}`}
-            id="x-choice-button"
+            aria-label="Select X marker"
+            aria-pressed={playerOne === "x"}
           >
             <XSolid size="32" />
           </button>
           <button
+            id="o-choice-button"
             onClick={() => setPlayerOne("o")}
             className={`menu__choice-button ${playerOne === "o" && "selected"}`}
-            id="o-choice-button"
+            aria-label="Select O marker"
+            aria-pressed={playerOne === "o"}
           >
             <OSolid size="32" />
           </button>
@@ -43,12 +47,14 @@ const Menu = ({ setGameSelected, setGameType, playerOne, setPlayerOne }) => {
         <button
           onClick={() => handleClick("single-player")}
           className="menu__button--single-player"
+          aria-label="New game vs CPU"
         >
           New game (vs CPU)
         </button>
         <button
           onClick={() => handleClick("two-player")}
           className="menu__button--two-player"
+          aria-label="New game vs other player"
         >
           New game (vs player)
         </button>

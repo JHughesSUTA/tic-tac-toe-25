@@ -16,7 +16,11 @@
 }
 
 *:focus-visible {
-  outline: 4px solid rgb(255, 33, 192);
+  outline: none;
+}
+
+.user-is-tabbing *:focus-visible {
+  outline: 4px solid #ff21c0;
 }
 
 img,

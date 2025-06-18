@@ -5,16 +5,22 @@ import OSolid from "./icons/OSolid";
 import Reset from "./icons/Reset";
 import "../components/GameHeader.scss";
 
-const GameHeader = ({ turn, toggleResetModal }) => {
+const GameHeader = ({ turn, toggleResetModal, resetGame }) => {
   return (
     <header className="header">
-      <img
-        className="header__logo logo"
-        src={logo}
-        alt=""
-        width="72"
-        height="32"
-      />
+      <button
+        onClick={resetGame}
+        className="header__menu"
+        aria-label="Back to menu"
+      >
+        <img
+          className="header__logo logo"
+          src={logo}
+          alt=""
+          width="72"
+          height="32"
+        />
+      </button>
       <div className="header__turn-display">
         {turn === "x" ? (
           <XSolid size="20" color="#A8BFC9" />
@@ -25,8 +31,8 @@ const GameHeader = ({ turn, toggleResetModal }) => {
       </div>
       <button
         onClick={toggleResetModal}
-        className="header__reset"
-        aria-label="Reset Game"
+        className="header__restart"
+        aria-label="Restart Game"
       >
         <Reset size="20px" />
       </button>
@@ -36,6 +42,7 @@ const GameHeader = ({ turn, toggleResetModal }) => {
 
 GameHeader.propTypes = {
   turn: PropTypes.string.isRequired,
+  resetGame: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

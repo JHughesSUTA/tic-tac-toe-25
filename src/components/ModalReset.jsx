@@ -10,6 +10,7 @@ const ModalReset = forwardRef((props, ref) => {
         <button
           className="modal__cancel-button"
           onClick={props.toggleResetModal}
+          aria-label="Cancel"
         >
           No, Cancel
         </button>
@@ -19,6 +20,7 @@ const ModalReset = forwardRef((props, ref) => {
             props.restart();
             props.toggleResetModal();
           }}
+          aria-label="Restart game"
         >
           Yes, restart
         </button>

@@ -190,7 +190,7 @@ const GameVsComputer = ({
         checkForDraw(newBoard);
 
         !gameWinner && setTurn(turn === "x" ? "o" : "x");
-      }, 600); // 600ms delay
+      }, Math.floor(Math.random() * (1000 - 500 + 1)) + 500); // .5 - 1 second delay (thinking)
 
       return () => clearTimeout(timer);
     }
@@ -198,7 +198,11 @@ const GameVsComputer = ({
 
   return (
     <main className="container">
-      <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
+      <GameHeader
+        turn={turn}
+        toggleResetModal={toggleResetModal}
+        resetGame={resetGame}
+      />
       <GameBoard
         board={board}
         handleClick={handleClick}

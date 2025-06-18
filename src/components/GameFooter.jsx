@@ -10,7 +10,8 @@ const GameFooter = ({
 }) => {
   return (
     <section
-      className="game-info"
+      className="game-scoreboard"
+      aria-label="Game Scoreboard"
       style={{
         display: "flex",
         justifyContent: "space-between",
@@ -18,25 +19,43 @@ const GameFooter = ({
     >
       {gameType === "single-player" ? (
         <>
-          <div className="game-info__display game-info__display--x-wins">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--x-wins"
+            aria-live="polite"
+          >
             X ({`${playerOne === "x" ? "You" : "CPU"}`})<span>{xWinCount}</span>
           </div>
-          <div className="game-info__display game-info__display--ties">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--ties"
+            aria-live="polite"
+          >
             Ties <span>{catWinCount}</span>
           </div>
-          <div className="game-info__display game-info__display--o-wins">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--o-wins"
+            aria-live="polite"
+          >
             O ({`${playerOne === "o" ? "You" : "CPU"}`})<span>{oWinCount}</span>
           </div>
         </>
       ) : (
         <>
-          <div className="game-info__display game-info__display--x-wins">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--x-wins"
+            aria-live="polite"
+          >
             X ({`${playerOne === "x" ? "P1" : "P2"}`}) <span>{xWinCount}</span>
           </div>
-          <div className="game-info__display game-info__display--ties">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--ties"
+            aria-live="polite"
+          >
             Ties <span>{catWinCount}</span>
           </div>
-          <div className="game-info__display game-info__display--o-wins">
+          <div
+            className="game-scoreboard__display game-scoreboard__display--o-wins"
+            aria-live="polite"
+          >
             O ({`${playerOne === "o" ? "P1" : "P2"}`}) <span>{oWinCount}</span>
           </div>
         </>

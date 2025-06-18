@@ -46,8 +46,10 @@
 
 @mixin button-yellow($shadow-height: -8px) {
   background-color: $yellow;
+  color: $navy-dark;
   box-shadow: inset 0px $shadow-height 0px 0px #cc8b13;
   border: none;
+  // transition: all 0.2s ease-in-out;
 
   &:hover {
     background-color: $yellow-hover;
@@ -56,6 +58,7 @@
 
 @mixin button-green($shadow-height: -8px) {
   background-color: $green;
+  color: $navy-dark;
   box-shadow: inset 0px $shadow-height 0px 0px #118c87;
   border: none;
 
@@ -66,6 +69,7 @@
 
 @mixin button-silver($shadow-height: -8px) {
   background-color: $silver;
+  color: $navy-dark;
   box-shadow: inset 0px $shadow-height 0px 0px #6b8997;
   border: none;
 

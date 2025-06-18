@@ -9,6 +9,11 @@
     margin-top: 4px;
   }
 
+  &__menu {
+    background-color: transparent;
+    border: none;
+  }
+
   &__turn-display {
     @include heading-xs();
     border-radius: 10px;
@@ -22,7 +27,7 @@
     padding: 13px 30px 19px;
   }
 
-  &__reset {
+  &__restart {
     @include button-silver(-4px);
     min-width: 52px;
     max-height: 52px;
@@ -53,7 +58,7 @@
       }
     }
 
-    &__reset {
+    &__restart {
       min-width: 40px;
       max-height: 40px;
       padding: 11px 12px 13px;

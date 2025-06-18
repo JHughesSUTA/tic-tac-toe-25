@@ -24,7 +24,9 @@
       display: none;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
+      outline: none;
       .cell--preview {
         display: block;
       }
@@ -39,7 +41,7 @@
         }
       }
     }
-    
+
     &--winner-o {
       background-color: $yellow;
       border-bottom: 1px solid $navy-dark;

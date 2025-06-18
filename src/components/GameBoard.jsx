@@ -29,6 +29,8 @@ const GameBoard = ({
                 ? `cell--winner-${board[i]}`
                 : ""
             }`}
+            tabIndex={cell ? "-1" : "0"}
+            aria-disabled={cell ? "true" : "false"}
             key={i}
             onClick={() => handleClick(i)}
           >

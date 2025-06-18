@@ -1,7 +1,7 @@
 import GameVsPlayer from "./components/GameVsPlayer";
 import GameVsComputer from "./components/GameVsComputer";
 import Menu from "./components/Menu";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function App() {
   const [gameSelected, setGameSelected] = useState(false);
@@ -33,6 +33,28 @@ function App() {
     setGameSelected(false);
     setGameType(null);
   };
+
+  useEffect(() => {
+    const handleFirstTab = (e) => {
+      if (e.key === "Tab") {
+        document.body.classList.add("user-is-tabbing");
+        window.removeEventListener("keydown", handleFirstTab);
+      }
+    };
+
+    const handleMouseDown = () => {
+      document.body.classList.remove("user-is-tabbing");
+      window.addEventListener("keydown", handleFirstTab);
+    };
+
+    window.addEventListener("keydown", handleFirstTab);
+    window.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleFirstTab);
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, []);
 
   return (
     <>
