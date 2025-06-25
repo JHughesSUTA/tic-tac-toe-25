@@ -13,7 +13,6 @@ const GameBoard = ({
   gameType,
   winningLine,
 }) => {
-  console.log(gameType);
   return (
     <section id="board">
       {board.map((cell, i) => {
