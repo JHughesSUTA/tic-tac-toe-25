@@ -25,7 +25,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://jhughessuta.github.io/tic-tac-toe-25/)
+- Live Site URL: [https://jhughessuta.github.io/tic-tac-toe-25/](https://jhughessuta.github.io/tic-tac-toe-25/)
 
 ## My process
 
@@ -58,8 +58,5 @@ Because of my component structure and where I was triggering the modal, I initia
 This was also my first time using Sass within a React project. Vite makes it pretty simple, but I did have to determine folder structure of the styles within a React app. I actually asked AI to recommend a folder structure and this is what it suggested (a styles folder, and individual component .scss files within the components folder with their jsx counterparts). I'm not sure I loved having the component styles in the same folder so will continue to explore other options to find what I like best.
 
 Sass is also deprecating @import which I used historically - so this was a good opportunity to learn how to use @use and @forward
-
-
-
 
 - Website - James Hughes(https://jhughessuta.github.io/)
