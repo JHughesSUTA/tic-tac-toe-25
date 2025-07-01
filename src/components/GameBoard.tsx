@@ -1,9 +1,18 @@
 import "../components/GameBoard.scss";
-import OSolid from "../components/icons/OSolid";
-import XSolid from "../components/icons/XSolid";
-import PropTypes from "prop-types";
+import OSolid from "./icons/OSolid";
+import XSolid from "./icons/XSolid";
 import XOutline from "./icons/XOutline";
 import OOutline from "./icons/OOutline";
+import type { Player, GameType } from "../types";
+
+type GameBoardProps = {
+  board: (Player | null)[];
+  handleClick: (i: number) => void;
+  turn: Player;
+  playerOne?: Player;
+  gameType: Exclude<GameType, null>;
+  winningLine?: number[];
+};
 
 const GameBoard = ({
   board,
@@ -12,7 +21,7 @@ const GameBoard = ({
   playerOne,
   gameType,
   winningLine,
-}) => {
+}: GameBoardProps) => {
   return (
     <section id="board">
       {board.map((cell, i) => {
@@ -28,7 +37,7 @@ const GameBoard = ({
                 ? `cell--winner-${board[i]}`
                 : ""
             }`}
-            tabIndex={cell ? "-1" : "0"}
+            tabIndex={cell ? -1 : 0}
             aria-disabled={cell ? "true" : "false"}
             key={i}
             onClick={() => handleClick(i)}
@@ -47,13 +56,3 @@ const GameBoard = ({
 };
 
 export default GameBoard;
-
-GameBoard.propTypes = {
-  board: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
-  ).isRequired,
-  handleClick: PropTypes.func.isRequired,
-  turn: PropTypes.string.isRequired,
-  playerOne: PropTypes.string,
-  gameType: PropTypes.string,
-};

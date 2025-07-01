@@ -1,11 +1,23 @@
-import PropTypes from "prop-types";
 import logo from "../assets/images/logo.png";
 import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import "../components/Menu.scss";
+import type { GameType, Player } from "../types";
 
-const Menu = ({ setGameSelected, setGameType, playerOne, setPlayerOne }) => {
-  const handleClick = (selectedType) => {
+type MenuProps = {
+  setGameSelected: (selected: boolean) => void;
+  setGameType: (type: GameType) => void;
+  playerOne?: Player;
+  setPlayerOne: (player: Player) => void;
+};
+
+const Menu = ({
+  setGameSelected,
+  setGameType,
+  playerOne,
+  setPlayerOne,
+}: MenuProps) => {
+  const handleClick = (selectedType: GameType) => {
     setGameSelected(true);
     setGameType(selectedType);
   };
@@ -64,10 +76,3 @@ const Menu = ({ setGameSelected, setGameType, playerOne, setPlayerOne }) => {
 };
 
 export default Menu;
-
-Menu.propTypes = {
-  setGameSelected: PropTypes.func.isRequired,
-  setGameType: PropTypes.func.isRequired,
-  gameType: PropTypes.string,
-  playerOne: PropTypes.string.isRequired,
-};

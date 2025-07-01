@@ -1,4 +1,8 @@
-const OOutline = ({ size = "64" }) => {
+type OOutlineProps = {
+  size?: string;
+};
+
+const OOutline = ({ size = "64" }: OOutlineProps) => {
   return (
     <svg
       width={size}

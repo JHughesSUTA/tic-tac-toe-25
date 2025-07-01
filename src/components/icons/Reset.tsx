@@ -1,6 +1,8 @@
-import PropTypes from "prop-types";
+type ResetProps = {
+  size?: string;
+};
 
-const Reset = ({ size = "20" }) => {
+const Reset = ({ size = "20" }: ResetProps) => {
   return (
     <svg
       width={size}
@@ -21,7 +23,3 @@ const Reset = ({ size = "20" }) => {
 };
 
 export default Reset;
-
-Reset.propTypes = {
-  size: PropTypes.string,
-};

@@ -1,6 +1,9 @@
-import PropTypes from "prop-types";
+type OSolidProps = {
+  size?: string;
+  color?: string;
+};
 
-const OSolid = ({ size = "64", color = "#F2B137" }) => {
+const OSolid = ({ size = "64", color = "#F2B137" }: OSolidProps) => {
   return (
     <svg
       width={size}
@@ -20,8 +23,3 @@ const OSolid = ({ size = "64", color = "#F2B137" }) => {
 };
 
 export default OSolid;
-
-OSolid.propTypes = {
-  size: PropTypes.string,
-  color: PropTypes.string,
-};

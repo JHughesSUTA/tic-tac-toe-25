@@ -1,6 +1,10 @@
 import { useId } from "react";
 
-const XOutline = ({ size = "64" }) => {
+type XOutlineProps = {
+  size?: string;
+};
+
+const XOutline = ({ size = "64" }: XOutlineProps) => {
   const maskId = useId();
 
   return (

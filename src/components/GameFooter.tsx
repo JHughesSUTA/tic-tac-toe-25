@@ -1,5 +1,13 @@
 import "../components/GameFooter.scss";
-import PropTypes from "prop-types";
+import type { Player, GameType } from "../types";
+
+type GameFooterProps = {
+  xWinCount: number;
+  oWinCount: number;
+  catWinCount: number;
+  playerOne?: Player;
+  gameType: Exclude<GameType, null>;
+};
 
 const GameFooter = ({
   xWinCount,
@@ -7,7 +15,7 @@ const GameFooter = ({
   catWinCount,
   playerOne,
   gameType,
-}) => {
+}: GameFooterProps) => {
   return (
     <section
       className="game-scoreboard"
@@ -65,9 +73,3 @@ const GameFooter = ({
 };
 
 export default GameFooter;
-
-GameFooter.propTypes = {
-  xWinCount: PropTypes.number.isRequired,
-  oWinCount: PropTypes.number.isRequired,
-  catWinCount: PropTypes.number.isRequired,
-};

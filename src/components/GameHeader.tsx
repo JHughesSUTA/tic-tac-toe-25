@@ -1,11 +1,17 @@
 import logo from "../assets/images/logo.png";
-import PropTypes from "prop-types";
 import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import Reset from "./icons/Reset";
+import type { Player } from "../types";
 import "../components/GameHeader.scss";
 
-const GameHeader = ({ turn, toggleResetModal, resetGame }) => {
+type GameHeaderProps = {
+  turn: Player;
+  toggleResetModal: () => void;
+  resetGame: () => void;
+};
+
+const GameHeader = ({ turn, toggleResetModal, resetGame }: GameHeaderProps) => {
   return (
     <header className="header">
       <button
@@ -38,11 +44,6 @@ const GameHeader = ({ turn, toggleResetModal, resetGame }) => {
       </button>
     </header>
   );
-};
-
-GameHeader.propTypes = {
-  turn: PropTypes.string.isRequired,
-  resetGame: PropTypes.func.isRequired,
 };
 
 export default GameHeader;

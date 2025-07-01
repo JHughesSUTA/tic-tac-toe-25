@@ -1,6 +1,9 @@
-import PropTypes from "prop-types";
+type XSolidProps = {
+  size?: string;
+  color?: string;
+};
 
-const XSolid = ({ size = "64", color = "#31c3bd" }) => {
+const XSolid = ({ size = "64", color = "#31c3bd" }: XSolidProps) => {
   return (
     <svg
       width={size}
@@ -20,8 +23,3 @@ const XSolid = ({ size = "64", color = "#31c3bd" }) => {
 };
 
 export default XSolid;
-
-XSolid.propTypes = {
-  size: PropTypes.string,
-  color: PropTypes.string,
-};

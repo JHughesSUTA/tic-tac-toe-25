@@ -1,13 +1,29 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import type { RefObject } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
 import ModalGameWon from "./ModalGameWon";
 import ModalReset from "./ModalReset";
+import type { Board, GameType, Player } from "../types";
 
-const startingBoard = Array(9).fill(null);
-const lines = [
+type GameVsComputerProps = {
+  resetGame: () => void;
+  toggleGameWonModal: () => void;
+  gameWonModalRef: RefObject<HTMLDialogElement | null>;
+  toggleResetModal: () => void;
+  resetModalRef: RefObject<HTMLDialogElement | null>;
+  gameType: Exclude<GameType, "two-player" | null>;
+  playerOne: Player;
+};
+
+type CheckForWinnerResult = {
+  winner: Player | null;
+  line: number[];
+};
+
+const startingBoard: Board = Array(9).fill(null);
+const lines: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -18,7 +34,7 @@ const lines = [
   [2, 4, 6],
 ];
 
-const checkForWinner = (board) => {
+const checkForWinner = (board: Board): CheckForWinnerResult => {
   for (const line of lines) {
     // assign each index of the current array to a variable
     const [a, b, c] = line;
@@ -38,18 +54,18 @@ const GameVsComputer = ({
   resetModalRef,
   gameType,
   playerOne,
-}) => {
-  const [board, setBoard] = useState(startingBoard);
-  const [gameActive, setGameActive] = useState(true);
-  const [turn, setTurn] = useState("x");
-  const [xWinCount, setXWinCount] = useState(0);
-  const [oWinCount, setOWinCount] = useState(0);
-  const [catWinCount, setCatWinCount] = useState(0);
-  const [winner, setWinner] = useState(null);
-  const [winningLine, setWinningLine] = useState([]);
-  const [nextFirstTurn, setNextFirstTurn] = useState("o");
+}: GameVsComputerProps) => {
+  const [board, setBoard] = useState<Board>(startingBoard);
+  const [gameActive, setGameActive] = useState<boolean>(true);
+  const [turn, setTurn] = useState<Player>("x");
+  const [xWinCount, setXWinCount] = useState<number>(0);
+  const [oWinCount, setOWinCount] = useState<number>(0);
+  const [catWinCount, setCatWinCount] = useState<number>(0);
+  const [winner, setWinner] = useState<Player | "tie" | null>(null);
+  const [winningLine, setWinningLine] = useState<number[]>([]);
+  const [nextFirstTurn, setNextFirstTurn] = useState<Player>("o");
 
-  const cpu = playerOne === "x" ? "o" : "x";
+  const cpu: Player = playerOne === "x" ? "o" : "x";
 
   const startNewMatch = () => {
     setBoard(startingBoard);
@@ -66,7 +82,7 @@ const GameVsComputer = ({
     setTurn(nextFirstTurn === "x" ? "o" : "x");
   };
 
-  const checkForDraw = (board) => {
+  const checkForDraw = (board: Board) => {
     if (board.every((cell) => cell !== null)) {
       console.log("The cat won!! ... meow");
       setGameActive(false);
@@ -79,14 +95,14 @@ const GameVsComputer = ({
     }
   };
 
-  const handleClick = (i) => {
+  const handleClick = (i: number) => {
     // only allow click if game is active and cell clicked is empty
     if (!gameActive || board[i] || turn !== playerOne) return;
 
     // create copy of the new board and check if it's a winner
     const newBoard = board.map((cell, index) =>
       index === i ? playerOne : cell
-    );
+    ) as Board;
 
     const { winner: gameWinner, line: winLine } = checkForWinner(newBoard);
 
@@ -116,11 +132,11 @@ const GameVsComputer = ({
   useEffect(() => {
     if (turn !== playerOne && gameActive) {
       const timer = setTimeout(() => {
-        let move = null;
+        let move: number | null = null;
 
         for (const line of lines) {
           const [a, b, c] = line;
-          const values = [board[a], board[b], board[c]];
+          const values: (Player | null)[] = [board[a], board[b], board[c]];
 
           const winningMove =
             (values[0] === values[1] &&
@@ -156,7 +172,7 @@ const GameVsComputer = ({
 
         // Pick a random empty cell if there are no winning or blocking moves
         if (move === null) {
-          const emptyCells = [];
+          const emptyCells: number[] = [];
           for (let i = 0; i < 9; i++) {
             if (!board[i]) emptyCells.push(i);
           }
@@ -166,7 +182,7 @@ const GameVsComputer = ({
 
         const newBoard = board.map((cell, index) =>
           index === move ? cpu : cell
-        );
+        ) as Board;
 
         const { winner: gameWinner, line: winLine } = checkForWinner(newBoard);
 
@@ -234,15 +250,6 @@ const GameVsComputer = ({
       />
     </main>
   );
-};
-
-GameVsComputer.propTypes = {
-  resetGame: PropTypes.func.isRequired,
-  toggleGameWonModal: PropTypes.func.isRequired,
-  gameWonModalRef: PropTypes.object,
-  toggleResetModal: PropTypes.func.isRequired,
-  resetModalRef: PropTypes.object,
-  gameType: PropTypes.string.isRequired,
 };
 
 export default GameVsComputer;

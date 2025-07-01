@@ -2,14 +2,15 @@ import GameVsPlayer from "./components/GameVsPlayer";
 import GameVsComputer from "./components/GameVsComputer";
 import Menu from "./components/Menu";
 import { useState, useRef, useEffect } from "react";
+import type { GameType, Player } from "./types";
 
 function App() {
-  const [gameSelected, setGameSelected] = useState(false);
-  const [gameType, setGameType] = useState(null);
-  const [playerOne, setPlayerOne] = useState("x");
+  const [gameSelected, setGameSelected] = useState<boolean>(false);
+  const [gameType, setGameType] = useState<GameType>(null);
+  const [playerOne, setPlayerOne] = useState<Player>("x");
 
-  const gameWonModalRef = useRef(null);
-  const resetModalRef = useRef(null);
+  const gameWonModalRef = useRef<HTMLDialogElement>(null);
+  const resetModalRef = useRef<HTMLDialogElement>(null);
 
   const toggleGameWonModal = () => {
     if (!gameWonModalRef.current) return;
@@ -35,7 +36,7 @@ function App() {
   };
 
   useEffect(() => {
-    const handleFirstTab = (e) => {
+    const handleFirstTab = (e: KeyboardEvent) => {
       if (e.key === "Tab") {
         document.body.classList.add("user-is-tabbing");
         window.removeEventListener("keydown", handleFirstTab);
