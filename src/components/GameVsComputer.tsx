@@ -5,16 +5,14 @@ import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
 import ModalGameWon from "./ModalGameWon";
 import ModalReset from "./ModalReset";
-import type { Board, GameType, Player } from "../types";
+import type { Board, Player } from "../types";
+import { useGame } from "../contexts/GameContext";
 
 type GameVsComputerProps = {
-  resetGame: () => void;
   toggleGameWonModal: () => void;
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
-  gameType: Exclude<GameType, "two-player" | null>;
-  playerOne: Player;
 };
 
 type CheckForWinnerResult = {
@@ -47,13 +45,10 @@ const checkForWinner = (board: Board): CheckForWinnerResult => {
 };
 
 const GameVsComputer = ({
-  resetGame,
   toggleGameWonModal,
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
-  gameType,
-  playerOne,
 }: GameVsComputerProps) => {
   const [board, setBoard] = useState<Board>(startingBoard);
   const [gameActive, setGameActive] = useState<boolean>(true);
@@ -64,6 +59,8 @@ const GameVsComputer = ({
   const [winner, setWinner] = useState<Player | "tie" | null>(null);
   const [winningLine, setWinningLine] = useState<number[]>([]);
   const [nextFirstTurn, setNextFirstTurn] = useState<Player>("o");
+
+  const { playerOne } = useGame();
 
   const cpu: Player = playerOne === "x" ? "o" : "x";
 
@@ -214,34 +211,23 @@ const GameVsComputer = ({
 
   return (
     <main className="container">
-      <GameHeader
-        turn={turn}
-        toggleResetModal={toggleResetModal}
-        resetGame={resetGame}
-      />
+      <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
       <GameBoard
         board={board}
         handleClick={handleClick}
         turn={turn}
-        playerOne={playerOne}
-        gameType={gameType}
         winningLine={winningLine}
       />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
-        gameType={gameType}
-        playerOne={playerOne}
       />
       <ModalGameWon
         ref={gameWonModalRef}
         toggleGameWonModal={toggleGameWonModal}
         startNewMatch={startNewMatch}
-        resetGame={resetGame}
         winner={winner}
-        gameType={gameType}
-        playerOne={playerOne}
       />
       <ModalReset
         ref={resetModalRef}

@@ -5,16 +5,13 @@ import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
 import ModalGameWon from "./ModalGameWon";
 import ModalReset from "./ModalReset";
-import type { Player, Board, GameType } from "../types";
+import type { Player, Board } from "../types";
 
 type GameVsPlayerProps = {
-  resetGame: () => void;
   toggleGameWonModal: () => void;
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
-  gameType: Exclude<GameType, "single-player" | null>;
-  playerOne: Player;
 };
 
 type CheckForWinnerResult = {
@@ -47,13 +44,10 @@ const checkForWinner = (board: Board): CheckForWinnerResult => {
 };
 
 const GameVsPlayer = ({
-  resetGame,
   toggleGameWonModal,
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
-  gameType,
-  playerOne,
 }: GameVsPlayerProps) => {
   const [board, setBoard] = useState<Board>(startingBoard);
   const [gameActive, setGameActive] = useState<boolean>(true);
@@ -119,33 +113,23 @@ const GameVsPlayer = ({
 
   return (
     <main className="container">
-      <GameHeader
-        turn={turn}
-        toggleResetModal={toggleResetModal}
-        resetGame={resetGame}
-      />
+      <GameHeader turn={turn} toggleResetModal={toggleResetModal} />
       <GameBoard
         board={board}
         handleClick={handleClick}
         turn={turn}
-        gameType={gameType!}
         winningLine={winningLine}
       />
       <GameFooter
         xWinCount={xWinCount}
         oWinCount={oWinCount}
         catWinCount={catWinCount}
-        gameType={gameType!}
-        playerOne={playerOne}
       />
       <ModalGameWon
         ref={gameWonModalRef}
         toggleGameWonModal={toggleGameWonModal}
         startNewMatch={startNewMatch}
-        resetGame={resetGame}
         winner={winner}
-        playerOne={playerOne}
-        gameType={gameType}
       />
       <ModalReset
         ref={resetModalRef}

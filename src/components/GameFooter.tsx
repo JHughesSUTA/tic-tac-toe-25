@@ -1,21 +1,18 @@
 import "../components/GameFooter.scss";
-import type { Player, GameType } from "../types";
+import { useGame } from "../contexts/GameContext";
 
 type GameFooterProps = {
   xWinCount: number;
   oWinCount: number;
   catWinCount: number;
-  playerOne?: Player;
-  gameType: Exclude<GameType, null>;
 };
 
 const GameFooter = ({
   xWinCount,
   oWinCount,
   catWinCount,
-  playerOne,
-  gameType,
 }: GameFooterProps) => {
+  const { gameType, playerOne } = useGame();
   return (
     <section
       className="game-scoreboard"

@@ -2,20 +2,19 @@ import { forwardRef } from "react";
 import "../components/Modals.scss";
 import OSolid from "./icons/OSolid";
 import XSolid from "./icons/XSolid";
-import type { Player, GameType, Winner } from "../types";
+import type { Winner } from "../types";
+import { useGame } from "../contexts/GameContext";
 
 type ModalGameWonProps = {
   toggleGameWonModal: () => void;
   startNewMatch: () => void;
-  resetGame: () => void;
-  // children?: ReactNode;
   winner: Winner;
-  gameType: GameType;
-  playerOne?: Player;
 };
 
 const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
   (props, ref) => {
+    const { resetGame, gameType, playerOne } = useGame();
+
     const handleNextRoundClick = () => {
       props.toggleGameWonModal();
       props.startNewMatch();
@@ -29,9 +28,9 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
         : "#a8bfc9";
 
     const getXWinMessage = () => {
-      if (props.gameType === "single-player") {
+      if (gameType === "single-player") {
         // Single-player mode
-        if (props.playerOne === "x") {
+        if (playerOne === "x") {
           // If X wins, player one is X, and gameType is Single Player
           return (
             <>
@@ -54,7 +53,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
         }
       } else {
         // Two-player mode
-        if (props.playerOne === "x") {
+        if (playerOne === "x") {
           // If X wins, player one is X, and gameType is Two Players
           return (
             <>
@@ -79,9 +78,9 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
     };
 
     const getOWinMessage = () => {
-      if (props.gameType === "single-player") {
+      if (gameType === "single-player") {
         // Single-player mode
-        if (props.playerOne === "x") {
+        if (playerOne === "x") {
           // If O wins, player one is X, and gameType is Single Player
           return (
             <>
@@ -104,7 +103,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
         }
       } else {
         // Two-player mode
-        if (props.playerOne === "x") {
+        if (playerOne === "x") {
           // If O wins, player one is X, and gameType is Two Players
           return (
             <>
@@ -146,7 +145,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
         <div className="modal__button-container">
           <button
             className="modal__quit-button"
-            onClick={props.resetGame}
+            onClick={resetGame}
             aria-label="Quit game"
           >
             Quit
@@ -159,7 +158,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
             Next Round
           </button>
         </div>
-        {/* {props.children} */}
       </dialog>
     );
   }

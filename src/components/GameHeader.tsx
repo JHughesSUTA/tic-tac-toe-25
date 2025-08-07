@@ -1,17 +1,18 @@
+import "../components/GameHeader.scss";
 import logo from "../assets/images/logo.png";
 import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import Reset from "./icons/Reset";
 import type { Player } from "../types";
-import "../components/GameHeader.scss";
+import { useGame } from "../contexts/GameContext";
 
 type GameHeaderProps = {
   turn: Player;
   toggleResetModal: () => void;
-  resetGame: () => void;
 };
 
-const GameHeader = ({ turn, toggleResetModal, resetGame }: GameHeaderProps) => {
+const GameHeader = ({ turn, toggleResetModal }: GameHeaderProps) => {
+  const { resetGame } = useGame();
   return (
     <header className="header">
       <button

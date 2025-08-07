@@ -2,21 +2,12 @@ import logo from "../assets/images/logo.png";
 import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import "../components/Menu.scss";
-import type { GameType, Player } from "../types";
+import type { GameType } from "../types";
+import { useGame } from "../contexts/GameContext";
 
-type MenuProps = {
-  setGameSelected: (selected: boolean) => void;
-  setGameType: (type: GameType) => void;
-  playerOne?: Player;
-  setPlayerOne: (player: Player) => void;
-};
+const Menu = () => {
+  const { setGameSelected, setGameType, playerOne, setPlayerOne } = useGame();
 
-const Menu = ({
-  setGameSelected,
-  setGameType,
-  playerOne,
-  setPlayerOne,
-}: MenuProps) => {
   const handleClick = (selectedType: GameType) => {
     setGameSelected(true);
     setGameType(selectedType);

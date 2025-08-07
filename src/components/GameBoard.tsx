@@ -3,14 +3,13 @@ import OSolid from "./icons/OSolid";
 import XSolid from "./icons/XSolid";
 import XOutline from "./icons/XOutline";
 import OOutline from "./icons/OOutline";
-import type { Player, GameType } from "../types";
+import type { Player } from "../types";
+import { useGame } from "../contexts/GameContext";
 
 type GameBoardProps = {
   board: (Player | null)[];
   handleClick: (i: number) => void;
   turn: Player;
-  playerOne?: Player;
-  gameType: Exclude<GameType, null>;
   winningLine?: number[];
 };
 
@@ -18,10 +17,10 @@ const GameBoard = ({
   board,
   handleClick,
   turn,
-  playerOne,
-  gameType,
   winningLine,
 }: GameBoardProps) => {
+  const { gameType, playerOne } = useGame();
+
   return (
     <section id="board">
       {board.map((cell, i) => {
