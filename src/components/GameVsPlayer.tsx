@@ -1,10 +1,11 @@
-import { useState } from "react";
-import type { RefObject } from "react";
+import { useEffect } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
 import GameFooter from "./GameFooter";
 import ModalGameWon from "./ModalGameWon";
 import ModalReset from "./ModalReset";
+import { usePersistedState } from "../hooks/usePersistedState";
+import type { RefObject } from "react";
 import type { Player, Board } from "../types";
 
 type GameVsPlayerProps = {
@@ -12,12 +13,16 @@ type GameVsPlayerProps = {
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
+  // isGameWonModalOpen: boolean;
+  // setIsGameWonModalOpen: (val: boolean) => void;
 };
 
 type CheckForWinnerResult = {
   winner: Player | null;
   line: number[];
 };
+
+// TODO - playerOne only gets set to local storage after refreshing (from modal?)
 
 const startingBoard: Board = Array(9).fill(null);
 const lines: number[][] = [
@@ -48,16 +53,41 @@ const GameVsPlayer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
+  // setIsGameWonModalOpen,
+  // isGameWonModalOpen,
 }: GameVsPlayerProps) => {
-  const [board, setBoard] = useState<Board>(startingBoard);
-  const [gameActive, setGameActive] = useState<boolean>(true);
-  const [winner, setWinner] = useState<Player | "tie" | null>(null);
-  const [winningLine, setWinningLine] = useState<number[]>([]);
-  const [turn, setTurn] = useState<Player>("x");
-  const [xWinCount, setXWinCount] = useState<number>(0);
-  const [oWinCount, setOWinCount] = useState<number>(0);
-  const [catWinCount, setCatWinCount] = useState<number>(0);
-  const [nextFirstTurn, setNextFirstTurn] = useState<Player>("o");
+  const [board, setBoard] = usePersistedState<Board>("board", startingBoard);
+  const [gameActive, setGameActive] = usePersistedState("gameActive", true);
+  const [turn, setTurn] = usePersistedState<Player>("turn", "x");
+  const [xWinCount, setXWinCount] = usePersistedState("xWinCount", 0);
+  const [oWinCount, setOWinCount] = usePersistedState("oWinCount", 0);
+  const [catWinCount, setCatWinCount] = usePersistedState("catWinCount", 0);
+  const [winner, setWinner] = usePersistedState<Player | "tie" | null>(
+    "winner",
+    null
+  );
+  const [winningLine, setWinningLine] = usePersistedState<number[]>(
+    "winningLine",
+    []
+  );
+  const [nextFirstTurn, setNextFirstTurn] = usePersistedState<Player>(
+    "nextFirstTurn",
+    "o"
+  );
+  const [isGameWonModalOpen, setIsGameWonModalOpen] = usePersistedState(
+    "isGameWonModalOpen",
+    false
+  );
+
+  useEffect(() => {
+    if (winner && isGameWonModalOpen) {
+      setTimeout(() => {
+        if (gameWonModalRef.current) {
+          gameWonModalRef.current.showModal();
+        }
+      }, 0);
+    }
+  }, []);
 
   const startNewMatch = () => {
     setBoard(startingBoard);
@@ -66,12 +96,23 @@ const GameVsPlayer = ({
     setWinningLine([]);
     setTurn(nextFirstTurn);
     setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
+    setIsGameWonModalOpen(false);
+
+    if (gameWonModalRef.current?.open) {
+      gameWonModalRef.current.close();
+    }
   };
 
   const restart = () => {
+    console.log("restarting game vs player");
     setBoard(startingBoard);
     setGameActive(true);
     setTurn(nextFirstTurn === "x" ? "o" : "x");
+    // setIsGameWonModalOpen(false);
+
+    // if (gameWonModalRef.current?.open) {
+    //   gameWonModalRef.current.close();
+    // }
   };
 
   const handleClick = (i: number) => {
@@ -87,6 +128,7 @@ const GameVsPlayer = ({
     if (gameWinner) {
       setGameActive(false);
       setWinner(gameWinner);
+      setIsGameWonModalOpen(true);
       setWinningLine(winLine);
 
       if (gameWinner === "x") {
@@ -101,10 +143,12 @@ const GameVsPlayer = ({
       console.log("The cat won!! ... meow");
       setGameActive(false);
       setWinner("tie");
+      setIsGameWonModalOpen(true);
+      // sessionStorage.setItem("isGameWonModalOpen", "true");
       setCatWinCount((prev) => prev + 1);
       setTimeout(() => {
         toggleGameWonModal();
-      }, 500);
+      }, 1000);
       return;
     }
 

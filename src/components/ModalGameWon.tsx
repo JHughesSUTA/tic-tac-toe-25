@@ -29,9 +29,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
 
     const getXWinMessage = () => {
       if (gameType === "single-player") {
-        // Single-player mode
         if (playerOne === "x") {
-          // If X wins, player one is X, and gameType is Single Player
           return (
             <>
               <p>You won!</p>
@@ -41,7 +39,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
             </>
           );
         } else {
-          // If X wins, player one is O, and gameType is Single Player
           return (
             <>
               <p>Oh no, you lost ...</p>
@@ -52,9 +49,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
           );
         }
       } else {
-        // Two-player mode
         if (playerOne === "x") {
-          // If X wins, player one is X, and gameType is Two Players
           return (
             <>
               <p>Player 1 wins!</p>
@@ -64,7 +59,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
             </>
           );
         } else {
-          // If X wins, player one is O, and gameType is Two Player
           return (
             <>
               <p>Player 2 wins!</p>
@@ -79,9 +73,7 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
 
     const getOWinMessage = () => {
       if (gameType === "single-player") {
-        // Single-player mode
         if (playerOne === "x") {
-          // If O wins, player one is X, and gameType is Single Player
           return (
             <>
               <p>Oh no, you lost ...</p>
@@ -91,7 +83,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
             </>
           );
         } else {
-          // If O wins, player one is O, and gameType is Single Player
           return (
             <>
               <p>You won!</p>
@@ -104,7 +95,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
       } else {
         // Two-player mode
         if (playerOne === "x") {
-          // If O wins, player one is X, and gameType is Two Players
           return (
             <>
               <p>Player 2 wins!</p>
@@ -114,7 +104,6 @@ const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
             </>
           );
         } else {
-          // If O wins, player one is O, and gameType is Two Players
           return (
             <>
               <p>Player 1 wins!</p>

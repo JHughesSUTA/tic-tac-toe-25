@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import type { Player, GameType } from "../types";
+import { usePersistedState } from "../hooks/usePersistedState";
 
 type GameContextType = {
   gameSelected: boolean;
@@ -19,13 +20,19 @@ type GameProviderProps = {
 };
 
 export const GameProvider = ({ children }: GameProviderProps) => {
-  const [gameSelected, setGameSelected] = useState<boolean>(false);
-  const [gameType, setGameType] = useState<GameType>(null);
-  const [playerOne, setPlayerOne] = useState<Player>("x");
+  // const [gameSelected, setGameSelected] = useState<boolean>(false);
+  const [gameSelected, setGameSelected] = usePersistedState(
+    "gameSelected",
+    false
+  );
+  // const [gameType, setGameType] = useState<GameType>(null);
+  const [gameType, setGameType] = usePersistedState<GameType>("gameType", null);
+  const [playerOne, setPlayerOne] = usePersistedState<Player>("playerOne", "x");
 
   const resetGame = () => {
     setGameSelected(false);
     setGameType(null);
+    sessionStorage.clear();
   };
 
   return (

@@ -4,7 +4,11 @@ import GameVsComputer from "./GameVsComputer";
 import GameVsPlayer from "./GameVsPlayer";
 import { useGame } from "../contexts/GameContext";
 
-const Main = ({}) => {
+const Main = () => {
+  // const [isGameWonModalOpen, setIsGameWonModalOpen] = usePersistedState(
+  //   "isGameWonModalOpen",
+  //   false
+  // );
   const { gameSelected, gameType } = useGame();
 
   const gameWonModalRef = useRef<HTMLDialogElement>(null);
@@ -12,10 +16,15 @@ const Main = ({}) => {
 
   const toggleGameWonModal = () => {
     if (!gameWonModalRef.current) return;
-    if (gameWonModalRef.current.open) {
-      gameWonModalRef.current.close();
-    } else {
-      gameWonModalRef.current.showModal();
+
+    if (gameWonModalRef.current) {
+      if (gameWonModalRef.current.open) {
+        gameWonModalRef.current.close();
+        // setIsGameWonModalOpen(false);
+      } else {
+        gameWonModalRef.current.showModal();
+        // setIsGameWonModalOpen(true);
+      }
     }
   };
 
@@ -59,6 +68,8 @@ const Main = ({}) => {
           gameWonModalRef={gameWonModalRef}
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
+          // setIsGameWonModalOpen={setIsGameWonModalOpen}
+          // isGameWonModalOpen={isGameWonModalOpen}
         />
       )}
       {gameSelected && gameType === "two-player" && (
@@ -67,6 +78,8 @@ const Main = ({}) => {
           gameWonModalRef={gameWonModalRef}
           resetModalRef={resetModalRef}
           toggleResetModal={toggleResetModal}
+          // isGameWonModalOpen={isGameWonModalOpen}
+          // setIsGameWonModalOpen={setIsGameWonModalOpen}
         />
       )}
     </>

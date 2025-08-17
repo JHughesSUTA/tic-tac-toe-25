@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { RefObject } from "react";
 import GameHeader from "./GameHeader";
 import GameBoard from "./GameBoard";
@@ -7,12 +7,15 @@ import ModalGameWon from "./ModalGameWon";
 import ModalReset from "./ModalReset";
 import type { Board, Player } from "../types";
 import { useGame } from "../contexts/GameContext";
+import { usePersistedState } from "../hooks/usePersistedState";
 
 type GameVsComputerProps = {
   toggleGameWonModal: () => void;
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
+  // isGameWonModalOpen: boolean;
+  // setIsGameWonModalOpen: (val: boolean) => void;
 };
 
 type CheckForWinnerResult = {
@@ -49,16 +52,31 @@ const GameVsComputer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
-}: GameVsComputerProps) => {
-  const [board, setBoard] = useState<Board>(startingBoard);
-  const [gameActive, setGameActive] = useState<boolean>(true);
-  const [turn, setTurn] = useState<Player>("x");
-  const [xWinCount, setXWinCount] = useState<number>(0);
-  const [oWinCount, setOWinCount] = useState<number>(0);
-  const [catWinCount, setCatWinCount] = useState<number>(0);
-  const [winner, setWinner] = useState<Player | "tie" | null>(null);
-  const [winningLine, setWinningLine] = useState<number[]>([]);
-  const [nextFirstTurn, setNextFirstTurn] = useState<Player>("o");
+}: // isGameWonModalOpen,
+// setIsGameWonModalOpen,
+GameVsComputerProps) => {
+  const [board, setBoard] = usePersistedState<Board>("board", startingBoard);
+  const [gameActive, setGameActive] = usePersistedState("gameActive", true);
+  const [turn, setTurn] = usePersistedState<Player>("turn", "x");
+  const [xWinCount, setXWinCount] = usePersistedState("xWinCount", 0);
+  const [oWinCount, setOWinCount] = usePersistedState("oWinCount", 0);
+  const [catWinCount, setCatWinCount] = usePersistedState("catWinCount", 0);
+  const [winner, setWinner] = usePersistedState<Player | "tie" | null>(
+    "winner",
+    null
+  );
+  const [winningLine, setWinningLine] = usePersistedState<number[]>(
+    "winningLine",
+    []
+  );
+  const [nextFirstTurn, setNextFirstTurn] = usePersistedState<Player>(
+    "nextFirstTurn",
+    "o"
+  );
+  const [isGameWonModalOpen, setIsGameWonModalOpen] = usePersistedState(
+    "isGameWonModalOpen",
+    false
+  );
 
   const { playerOne } = useGame();
 
@@ -71,9 +89,15 @@ const GameVsComputer = ({
     setNextFirstTurn(nextFirstTurn === "x" ? "o" : "x");
     setWinner(null);
     setWinningLine([]);
+    setIsGameWonModalOpen(false);
+
+    if (gameWonModalRef.current?.open) {
+      gameWonModalRef.current.close();
+    }
   };
 
   const restart = () => {
+    console.log("restarting game vs computer");
     setBoard(startingBoard);
     setGameActive(true);
     setTurn(nextFirstTurn === "x" ? "o" : "x");
@@ -85,6 +109,7 @@ const GameVsComputer = ({
       setGameActive(false);
       setCatWinCount((prev) => prev + 1);
       setWinner("tie");
+      setIsGameWonModalOpen(true);
       setTimeout(() => {
         toggleGameWonModal();
       }, 500);
@@ -107,6 +132,7 @@ const GameVsComputer = ({
 
     if (gameWinner) {
       setWinner(gameWinner);
+      setIsGameWonModalOpen(true);
       setWinningLine(winLine);
       console.log(`${gameWinner} wins!`);
       setGameActive(false);
@@ -127,7 +153,13 @@ const GameVsComputer = ({
   };
 
   useEffect(() => {
-    if (turn !== playerOne && gameActive) {
+    if (winner && isGameWonModalOpen && gameWonModalRef.current) {
+      gameWonModalRef.current.showModal();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (turn !== playerOne && gameActive && !winner) {
       const timer = setTimeout(() => {
         let move: number | null = null;
 
@@ -187,6 +219,7 @@ const GameVsComputer = ({
 
         if (gameWinner) {
           setWinner(gameWinner);
+          setIsGameWonModalOpen(true);
           setWinningLine(winLine);
           setGameActive(false);
           if (gameWinner === "x") {
@@ -207,7 +240,7 @@ const GameVsComputer = ({
 
       return () => clearTimeout(timer);
     }
-  }, [board, turn, gameActive]);
+  }, [board, turn, gameActive, winner]);
 
   return (
     <main className="container">

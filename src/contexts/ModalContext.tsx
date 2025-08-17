@@ -1,7 +1,12 @@
 import { createContext, useContext, useRef } from "react";
 import type { ReactNode } from "react";
 
-const ModalContext = createContext(undefined);
+type ModalContextType = {
+  resetModalRef: React.RefObject<HTMLDialogElement | null>;
+  toggleResetModal: () => void;
+};
+
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 type ModalProviderProps = {
   children: ReactNode;
