@@ -17,4 +17,3 @@ export const useSafeTimeout = () => {
 
   return { setSafeTimeout };
 };
-gi
