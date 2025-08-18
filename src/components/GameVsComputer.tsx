@@ -8,14 +8,13 @@ import ModalReset from "./ModalReset";
 import type { Board, Player } from "../types";
 import { useGame } from "../contexts/GameContext";
 import { usePersistedState } from "../hooks/usePersistedState";
+import { useSafeTimeout } from "../hooks/useSafeTimeout";
 
 type GameVsComputerProps = {
   toggleGameWonModal: () => void;
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
-  // isGameWonModalOpen: boolean;
-  // setIsGameWonModalOpen: (val: boolean) => void;
 };
 
 type CheckForWinnerResult = {
@@ -52,9 +51,7 @@ const GameVsComputer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
-}: // isGameWonModalOpen,
-// setIsGameWonModalOpen,
-GameVsComputerProps) => {
+}: GameVsComputerProps) => {
   const [board, setBoard] = usePersistedState<Board>("board", startingBoard);
   const [gameActive, setGameActive] = usePersistedState("gameActive", true);
   const [turn, setTurn] = usePersistedState<Player>("turn", "x");
@@ -79,6 +76,8 @@ GameVsComputerProps) => {
   );
 
   const { playerOne } = useGame();
+
+  const { setSafeTimeout } = useSafeTimeout();
 
   const cpu: Player = playerOne === "x" ? "o" : "x";
 
@@ -110,9 +109,9 @@ GameVsComputerProps) => {
       setCatWinCount((prev) => prev + 1);
       setWinner("tie");
       setIsGameWonModalOpen(true);
-      setTimeout(() => {
+      setSafeTimeout(() => {
         toggleGameWonModal();
-      }, 500);
+      }, 1000);
       return;
     }
   };
@@ -141,7 +140,7 @@ GameVsComputerProps) => {
       } else {
         setOWinCount((prev) => prev + 1);
       }
-      setTimeout(() => {
+      setSafeTimeout(() => {
         toggleGameWonModal();
       }, 1000);
       return;
@@ -160,7 +159,7 @@ GameVsComputerProps) => {
 
   useEffect(() => {
     if (turn !== playerOne && gameActive && !winner) {
-      const timer = setTimeout(() => {
+      setSafeTimeout(() => {
         let move: number | null = null;
 
         for (const line of lines) {
@@ -227,7 +226,7 @@ GameVsComputerProps) => {
           } else {
             setOWinCount((prev) => prev + 1);
           }
-          setTimeout(() => {
+          setSafeTimeout(() => {
             toggleGameWonModal();
           }, 1000);
           return;
@@ -238,7 +237,7 @@ GameVsComputerProps) => {
         !gameWinner && setTurn(turn === "x" ? "o" : "x");
       }, Math.floor(Math.random() * (1000 - 500 + 1)) + 500); // .5 - 1 second delay (thinking)
 
-      return () => clearTimeout(timer);
+      // return () => clearTimeout(timer);
     }
   }, [board, turn, gameActive, winner]);
 

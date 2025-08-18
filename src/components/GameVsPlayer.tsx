@@ -7,14 +7,13 @@ import ModalReset from "./ModalReset";
 import { usePersistedState } from "../hooks/usePersistedState";
 import type { RefObject } from "react";
 import type { Player, Board } from "../types";
+import { useSafeTimeout } from "../hooks/useSafeTimeout";
 
 type GameVsPlayerProps = {
   toggleGameWonModal: () => void;
   gameWonModalRef: RefObject<HTMLDialogElement | null>;
   toggleResetModal: () => void;
   resetModalRef: RefObject<HTMLDialogElement | null>;
-  // isGameWonModalOpen: boolean;
-  // setIsGameWonModalOpen: (val: boolean) => void;
 };
 
 type CheckForWinnerResult = {
@@ -53,8 +52,6 @@ const GameVsPlayer = ({
   gameWonModalRef,
   toggleResetModal,
   resetModalRef,
-  // setIsGameWonModalOpen,
-  // isGameWonModalOpen,
 }: GameVsPlayerProps) => {
   const [board, setBoard] = usePersistedState<Board>("board", startingBoard);
   const [gameActive, setGameActive] = usePersistedState("gameActive", true);
@@ -79,13 +76,11 @@ const GameVsPlayer = ({
     false
   );
 
+  const { setSafeTimeout } = useSafeTimeout();
+
   useEffect(() => {
-    if (winner && isGameWonModalOpen) {
-      setTimeout(() => {
-        if (gameWonModalRef.current) {
-          gameWonModalRef.current.showModal();
-        }
-      }, 0);
+    if (winner && isGameWonModalOpen && gameWonModalRef.current) {
+      gameWonModalRef.current.showModal();
     }
   }, []);
 
@@ -108,11 +103,6 @@ const GameVsPlayer = ({
     setBoard(startingBoard);
     setGameActive(true);
     setTurn(nextFirstTurn === "x" ? "o" : "x");
-    // setIsGameWonModalOpen(false);
-
-    // if (gameWonModalRef.current?.open) {
-    //   gameWonModalRef.current.close();
-    // }
   };
 
   const handleClick = (i: number) => {
@@ -136,7 +126,7 @@ const GameVsPlayer = ({
       } else if (gameWinner === "o") {
         setOWinCount((prev) => prev + 1);
       }
-      setTimeout(() => {
+      setSafeTimeout(() => {
         toggleGameWonModal();
       }, 1000);
     } else if (newBoard.every((cell) => cell !== null)) {
@@ -144,9 +134,8 @@ const GameVsPlayer = ({
       setGameActive(false);
       setWinner("tie");
       setIsGameWonModalOpen(true);
-      // sessionStorage.setItem("isGameWonModalOpen", "true");
       setCatWinCount((prev) => prev + 1);
-      setTimeout(() => {
+      setSafeTimeout(() => {
         toggleGameWonModal();
       }, 1000);
       return;
