@@ -15,24 +15,28 @@ type GameContextType = {
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-type GameProviderProps = {
+type GameModeProviderProps = {
   children: ReactNode;
 };
 
-export const GameProvider = ({ children }: GameProviderProps) => {
-  // const [gameSelected, setGameSelected] = useState<boolean>(false);
+export const GameModeProvider = ({ children }: GameModeProviderProps) => {
   const [gameSelected, setGameSelected] = usePersistedState(
     "gameSelected",
     false
   );
-  // const [gameType, setGameType] = useState<GameType>(null);
   const [gameType, setGameType] = usePersistedState<GameType>("gameType", null);
   const [playerOne, setPlayerOne] = usePersistedState<Player>("playerOne", "x");
 
   const resetGame = () => {
+    Object.keys(sessionStorage).forEach((key) => {
+      if (key.startsWith("vsCPU_") || key.startsWith("vsPlayer_")) {
+        sessionStorage.removeItem(key);
+      }
+    });
+
     setGameSelected(false);
     setGameType(null);
-    sessionStorage.clear();
+    setPlayerOne("x");
   };
 
   return (
@@ -52,10 +56,10 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   );
 };
 
-export const useGame = () => {
+export const useGameMode = () => {
   const context = useContext(GameContext);
   if (!context) {
-    throw new Error("useGame must be used within a GameProvider");
+    throw new Error("useGameMode must be used within a GameModeProvider");
   }
   return context;
 };

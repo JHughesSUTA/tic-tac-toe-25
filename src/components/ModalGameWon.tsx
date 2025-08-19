@@ -3,7 +3,7 @@ import "../components/Modals.scss";
 import OSolid from "./icons/OSolid";
 import XSolid from "./icons/XSolid";
 import type { Winner } from "../types";
-import { useGame } from "../contexts/GameContext";
+import { useGameMode } from "../contexts/GameModeContext";
 
 type ModalGameWonProps = {
   toggleGameWonModal: () => void;
@@ -13,7 +13,7 @@ type ModalGameWonProps = {
 
 const ModalGameWon = forwardRef<HTMLDialogElement, ModalGameWonProps>(
   (props, ref) => {
-    const { resetGame, gameType, playerOne } = useGame();
+    const { resetGame, gameType, playerOne } = useGameMode();
 
     const handleNextRoundClick = () => {
       props.toggleGameWonModal();

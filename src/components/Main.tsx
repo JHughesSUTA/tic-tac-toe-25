@@ -1,15 +1,11 @@
 import { useEffect, useRef } from "react";
+import { useGameMode } from "../contexts/GameModeContext";
 import Menu from "./Menu";
 import GameVsComputer from "./GameVsComputer";
 import GameVsPlayer from "./GameVsPlayer";
-import { useGame } from "../contexts/GameContext";
 
 const Main = () => {
-  // const [isGameWonModalOpen, setIsGameWonModalOpen] = usePersistedState(
-  //   "isGameWonModalOpen",
-  //   false
-  // );
-  const { gameSelected, gameType } = useGame();
+  const { gameSelected, gameType } = useGameMode();
 
   const gameWonModalRef = useRef<HTMLDialogElement>(null);
   const resetModalRef = useRef<HTMLDialogElement>(null);

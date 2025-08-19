@@ -1,11 +1,11 @@
 import Main from "./components/Main";
-import { GameProvider } from "./contexts/GameContext";
+import { GameModeProvider } from "./contexts/GameModeContext";
 
 function App() {
   return (
-    <GameProvider>
+    <GameModeProvider>
       <Main />
-    </GameProvider>
+    </GameModeProvider>
   );
 }
 

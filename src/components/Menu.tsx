@@ -3,10 +3,11 @@ import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import "../components/Menu.scss";
 import type { GameType } from "../types";
-import { useGame } from "../contexts/GameContext";
+import { useGameMode } from "../contexts/GameModeContext";
 
 const Menu = () => {
-  const { setGameSelected, setGameType, playerOne, setPlayerOne } = useGame();
+  const { setGameSelected, setGameType, playerOne, setPlayerOne } =
+    useGameMode();
 
   const handleClick = (selectedType: GameType) => {
     setGameSelected(true);

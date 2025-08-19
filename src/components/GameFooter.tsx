@@ -1,5 +1,5 @@
 import "../components/GameFooter.scss";
-import { useGame } from "../contexts/GameContext";
+import { useGameMode } from "../contexts/GameModeContext";
 
 type GameFooterProps = {
   xWinCount: number;
@@ -7,12 +7,8 @@ type GameFooterProps = {
   catWinCount: number;
 };
 
-const GameFooter = ({
-  xWinCount,
-  oWinCount,
-  catWinCount,
-}: GameFooterProps) => {
-  const { gameType, playerOne } = useGame();
+const GameFooter = ({ xWinCount, oWinCount, catWinCount }: GameFooterProps) => {
+  const { gameType, playerOne } = useGameMode();
   return (
     <section
       className="game-scoreboard"

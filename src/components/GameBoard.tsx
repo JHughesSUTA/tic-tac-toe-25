@@ -4,7 +4,7 @@ import XSolid from "./icons/XSolid";
 import XOutline from "./icons/XOutline";
 import OOutline from "./icons/OOutline";
 import type { Player } from "../types";
-import { useGame } from "../contexts/GameContext";
+import { useGameMode } from "../contexts/GameModeContext";
 
 type GameBoardProps = {
   board: (Player | null)[];
@@ -19,7 +19,7 @@ const GameBoard = ({
   turn,
   winningLine,
 }: GameBoardProps) => {
-  const { gameType, playerOne } = useGame();
+  const { gameType, playerOne } = useGameMode();
 
   return (
     <section id="board">

@@ -4,7 +4,7 @@ import XSolid from "./icons/XSolid";
 import OSolid from "./icons/OSolid";
 import Reset from "./icons/Reset";
 import type { Player } from "../types";
-import { useGame } from "../contexts/GameContext";
+import { useGameMode } from "../contexts/GameModeContext";
 
 type GameHeaderProps = {
   turn: Player;
@@ -12,7 +12,7 @@ type GameHeaderProps = {
 };
 
 const GameHeader = ({ turn, toggleResetModal }: GameHeaderProps) => {
-  const { resetGame } = useGame();
+  const { resetGame } = useGameMode();
   return (
     <header className="header">
       <button
